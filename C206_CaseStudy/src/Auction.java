@@ -1,11 +1,12 @@
+import java.time.LocalDateTime;
 
 public class Auction {
 	private String title;
 	private String description;
-	private String startTime;
-	private String endTime;
+	private LocalDateTime startTime;
+	private LocalDateTime endTime;
 	
-	public Auction(String title, String description, String startTime, String endTime) {
+	public Auction(String title, String description, LocalDateTime startTime, LocalDateTime endTime) {
 		this.title = title;
 		this.description = description;
 		this.startTime = startTime;
@@ -20,11 +21,11 @@ public class Auction {
 		return description;
 	}
 
-	public String getStartTime() {
+	public LocalDateTime getStartTime() {
 		return startTime;
 	}
 
-	public String getEndTime() {
+	public LocalDateTime getEndTime() {
 		return endTime;
 	}
 }

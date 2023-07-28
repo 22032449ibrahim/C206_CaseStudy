@@ -6,27 +6,18 @@ public class Bid {
 	private LocalDateTime bidStartDateTime;
 	private LocalDateTime bidStopDateTime;
 	
-	public Bid(double bidamount, LocalDateTime bidStartDateTime, LocalDateTime bidStopDateTime) {
-		super();
+	public Bid(double bidamount, LocalDateTime bidStartDateTime) {
 		this.bidamount = bidamount;
 		this.bidStartDateTime = bidStartDateTime;
-		this.bidStopDateTime = bidStopDateTime;
+		this.bidStopDateTime = null;
 	}
 
 	public double getBidamount() {
 		return bidamount;
 	}
 
-	public void setBidamount(double bidamount) {
-		this.bidamount = bidamount;
-	}
-
 	public LocalDateTime getBidStartDateTime() {
 		return bidStartDateTime;
-	}
-
-	public void setBidStartDateTime(LocalDateTime bidStartDateTime) {
-		this.bidStartDateTime = bidStartDateTime;
 	}
 
 	public LocalDateTime getBidStopDateTime() {

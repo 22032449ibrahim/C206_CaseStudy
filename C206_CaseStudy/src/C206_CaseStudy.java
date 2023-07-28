@@ -1,12 +1,21 @@
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class C206_CaseStudy {
-	
-	private static final int OPTION_ADD_PAYMENT = 14;
-	private static final int OPTION_VIEW_PAYMENT = 15;
-	private static final int OPTION_DELETE_PAYMENT = 16;
-	public static void main(String[] args) {
 
+	private static final int OPTION_ADD_PAYMENT = 13;
+	private static final int OPTION_VIEW_PAYMENT = 14;
+	private static final int OPTION_DELETE_PAYMENT = 15;
+	
+	
+
+	public static void main(String[] args) {
+		
+		ArrayList<Payment> PaymentList = new ArrayList<Payment>();
+		PaymentList.add(new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20));
+		PaymentList.add(new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
+		
 		// view options
 		int option = 0;
 		while (option != 5) {
@@ -52,10 +61,14 @@ public class C206_CaseStudy {
 
 			} else if (option == OPTION_ADD_PAYMENT) {
 				// Add payment
-
+				Payment p = inputPayment();
+				C206_CaseStudy.addPayment(PaymentList, p);
+				System.out.println("Payment added");
+				
 			} else if (option == OPTION_VIEW_PAYMENT) {
 				// View all payment
-
+				C206_CaseStudy.viewAllPayments(PaymentList);
+				
 			} else if (option == OPTION_DELETE_PAYMENT) {
 				// Delete payment
 
@@ -71,24 +84,29 @@ public class C206_CaseStudy {
 
 	// menu
 	public static void menu() {
-		C206_CaseStudy.setHeader("RESOURCE CENTRE APP");
-		System.out.println("1. Display Inventory");
-		System.out.println("2. Add a new User");
-		System.out.println("3. View all Users");
-		System.out.println("4. Delete an existing Item");
-		System.out.println("5. Add a new Auction");
-		System.out.println("6. View all Auction");
-		System.out.println("7. Delete a existing Auction");
-		System.out.println("8. Add a new Item");
-		System.out.println("9. View all Items");
-		System.out.println("10. Delete an existing Item");
-		System.out.println("11. Add a new Bid");
-		System.out.println("12. View all Bids");
-		System.out.println("13. Delete an existing Bid");
-		System.out.println("14. Add a new Payment");
-		System.out.println("15. View all Payments");
-		System.out.println("16. Delete an existing Payment");
-		System.out.println("17. Quit");
+		C206_CaseStudy.setHeader("CAMPUS ONLINE AUCTION SHOP");
+		C206_CaseStudy.setHeader("USER");
+		System.out.println("1. Add a new User");
+		System.out.println("2. View all Users");
+		System.out.println("3. Delete an existing Item");
+		C206_CaseStudy.setHeader("AUCTION");
+		System.out.println("4. Add a new Auction");
+		System.out.println("5. View all Auction");
+		System.out.println("6. Delete a existing Auction");
+		C206_CaseStudy.setHeader("ITEM");
+		System.out.println("7. Add a new Item");
+		System.out.println("8. View all Items");
+		System.out.println("9. Delete an existing Item");
+		C206_CaseStudy.setHeader("BID");
+		System.out.println("10. Add a new Bid");
+		System.out.println("11. View all Bids");
+		System.out.println("12. Delete an existing Bid");
+		C206_CaseStudy.setHeader("PAYMENT");
+		System.out.println("13. Add a new Payment");
+		System.out.println("14. View all Payments");
+		System.out.println("15. Delete an existing Payment");
+		Helper.line(80, "-");
+		System.out.println("16. Quit");
 		Helper.line(80, "-");
 
 	}
@@ -112,7 +130,7 @@ public class C206_CaseStudy {
 		return avail;
 	}
 
-	// ================================= Option 1 Viewing (CRUD- Read)=================================
+	// ================================= Option 1 Viewing (CRUD-Read)=================================
 
 	// retrieve and view all Users
 
@@ -123,14 +141,24 @@ public class C206_CaseStudy {
 	// retrieve and view all bids
 
 	// retrieve and view all payments
-	public static String retrieveAllPayments(ArrayList<Payment> camcorderList) {
+	public static String retrieveAllPayments(ArrayList<Payment> PaymentList) {
+		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");
 		String output = "";
+		for (int i = 0; i < PaymentList.size(); i++) {
+			output += String.format("%-30s %-20s %-20s %-10.2f\n", PaymentList.get(i).getCardNumber(),
+			PaymentList.get(i).getCardHolder(),PaymentList.get(i).getPaymentdate().format(f), PaymentList.get(i).getAmount());
+		}
 		return output;
 	}
-	
-	public static void viewAllPayments(ArrayList<Payment> camcorderList) {
 
+	public static void viewAllPayments(ArrayList<Payment> PaymentList) {
+		C206_CaseStudy.setHeader("PAYMENT LIST");
+		String output = String.format("%-30s %-20s %-20s %-10s\n", "CARD NUMBER", "CARD HOLDER", "PAYMENT DATETIME",
+				"AMOUNT");
+		output += retrieveAllPayments(PaymentList);
+		System.out.println(output);
 	}
+
 	// ================================= Option 2 Add an item (CRUD - Create)=================================
 
 	// Input and Add Users
@@ -143,12 +171,30 @@ public class C206_CaseStudy {
 
 	// Input and Add payments
 	public static Payment inputPayment() {
-		return null;
-		
-	}
-	public static void addPayment(ArrayList<Payment> camcorderList, Payment cc) {
+		String cardNum = Helper.readString("Enter Card Number > ");
+		String cardHolder = Helper.readString("Enter Card Holder > ");
+		LocalDateTime paymentDateTime = LocalDateTime.now();
+		Double amt = Helper.readDouble("Enter amount > ");
+
+		Payment p = new Payment(cardNum, cardHolder, paymentDateTime, amt);
+		return p;
 
 	}
+
+	public static void addPayment(ArrayList<Payment> PaymentList, Payment p) {
+		Payment p1;
+		for (int i = 0; i < PaymentList.size(); i++) {
+			p1 = PaymentList.get(i);
+			if (p1.getCardNumber().equalsIgnoreCase(p.getCardNumber()))
+				return;
+		}
+		if ((p.getCardNumber().isEmpty()) || (p.getCardHolder().isEmpty()) || (p.getPaymentdate() == null)
+				|| (p.getAmount() == 0.00)) {
+			return;
+		}
+		PaymentList.add(p);
+	}
+
 	// ================================= Option 3 delete(CRUD - delete)=================================
 
 	// exist and delete Users
@@ -160,13 +206,13 @@ public class C206_CaseStudy {
 	// exist and delete bids
 
 	// exist and delete payments
-	public static boolean doReturnCamcorder(ArrayList<Payment> camcorderList,String tag) {
+	public static boolean doReturnCamcorder(ArrayList<Payment> camcorderList, String tag) {
 		boolean isReturned = false;
 		return isReturned;
-		
+
 	}
 
 	public static void returnCamcorder(ArrayList<Payment> camcorderList) {
-		
+
 	}
 }

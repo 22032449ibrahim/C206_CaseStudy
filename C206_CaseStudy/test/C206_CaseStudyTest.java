@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -20,8 +21,8 @@ public class C206_CaseStudyTest {
 	@Before
 	public void setUp() throws Exception {
 		// prepare test data
-		p1 = new Payment("1234-1234-1234-1234", "Johnny Bob", "12/12/2022", 999.20);
-		p2 = new Payment("1234-1234-1234-4321", "Bobby Kim", "11/12/2022", 123.45);
+		p1 = new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20);
+		p2 = new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45);
 
 		PaymentList = new ArrayList<Payment>();
 	}
@@ -29,10 +30,10 @@ public class C206_CaseStudyTest {
 	@Test
 	public void testAddPayment() {
 		// fail("Not yet implemented");
-		
+
 		// Item list is not null, so that can add a new item - boundary
 		assertNotNull("Check if there is valid Camcorder arraylist to add to", PaymentList);
-		
+
 		// Given an empty list, after adding 1 item, the size of the list is 1 - normal
 		// The item just added is as same as the first item of the list
 		C206_CaseStudy.addPayment(PaymentList, p1);
@@ -44,6 +45,36 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addPayment(PaymentList, p2);
 		assertEquals("Check that Payment arraylist size is 2", 2, PaymentList.size());
 		assertSame("Check that Payment is added", p2, PaymentList.get(1));
+
+		// Add an item that has missing detail
+		Payment p_missing = new Payment("4321-4321-4321-4321", "Jill Pi", null, 60.00);
+		C206_CaseStudy.addPayment(PaymentList, p_missing);
+		assertEquals("Test that the Camcorder arraylist size is unchange.", 2, PaymentList.size());
+	}
+
+	@Test
+	public void testRetrieveAllPayments() {
+		// Test if Item list is not null and empty
+		assertNotNull("Test if there is valid payment arraylist to add to", PaymentList);
+		assertEquals("Test that the payment arraylist is empty.", 0, PaymentList.size());
+		// Attempt to retrieve the payment
+		String allpayment = C206_CaseStudy.retrieveAllPayments(PaymentList);
+		String testOutput = "";
+		// Test if the output is empty
+		assertEquals("Test that nothing is displayed", testOutput, allpayment);
+
+		// Test Case 2
+		C206_CaseStudy.addPayment(PaymentList, p1);
+		C206_CaseStudy.addPayment(PaymentList, p2);
+		// Test that the list is not empty
+		assertEquals("Test that payment arraylist size is 2.", 2, PaymentList.size());
+		// Attempt to retrieve the payment
+		allpayment = C206_CaseStudy.retrieveAllPayments(PaymentList);
+		testOutput = String.format("%-30s %-20s %-20s %-10.2f\n", "1234-1234-1234-1234", "Johnny Bob", "12/12/2021 10:30", 999.20);
+		testOutput += String.format("%-30s %-20s %-20s %-10.2f\n", "1234-1234-1234-4321", "Bobby Kim", "12/11/2021 10:30", 123.45);
+		// Test that the details are displayed correctly
+		assertEquals("Test that the display is correct.", testOutput, allpayment);
+
 	}
 
 	@After

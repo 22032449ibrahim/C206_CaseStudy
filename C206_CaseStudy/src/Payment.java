@@ -1,11 +1,13 @@
+import java.time.LocalDateTime;
+
 public class Payment {
 	
 	private String cardNumber;
 	private String cardHolder;
-	private String paymentdate;
+	private LocalDateTime paymentdate;
 	private double amount;
 	
-	public Payment(String cardNumber, String cardHolder, String paymentdate, double amount) {
+	public Payment(String cardNumber, String cardHolder, LocalDateTime paymentdate, double amount) {
 		this.cardNumber = cardNumber;
 		this.cardHolder = cardHolder;
 		this.paymentdate = paymentdate;
@@ -16,33 +18,18 @@ public class Payment {
 		return cardNumber;
 	}
 
-	public void setCardNumber(String cardNumber) {
-		this.cardNumber = cardNumber;
-	}
-
 	public String getCardHolder() {
 		return cardHolder;
 	}
 
-	public void setCardHolder(String cardHolder) {
-		this.cardHolder = cardHolder;
-	}
-
-	public String getPaymentdate() {
+	public LocalDateTime getPaymentdate() {
 		return paymentdate;
-	}
-
-	public void setPaymentdate(String paymentdate) {
-		this.paymentdate = paymentdate;
 	}
 
 	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
 
 	
 }

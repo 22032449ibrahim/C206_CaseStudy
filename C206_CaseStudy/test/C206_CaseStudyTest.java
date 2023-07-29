@@ -32,7 +32,7 @@ public class C206_CaseStudyTest {
 		// fail("Not yet implemented");
 
 		// Item list is not null, so that can add a new item - boundary
-		assertNotNull("Check if there is valid Camcorder arraylist to add to", PaymentList);
+		assertNotNull("Check if there is valid Payment arraylist to add to", PaymentList);
 
 		// Given an empty list, after adding 1 item, the size of the list is 1 - normal
 		// The item just added is as same as the first item of the list
@@ -75,6 +75,27 @@ public class C206_CaseStudyTest {
 		// Test that the details are displayed correctly
 		assertEquals("Test that the display is correct.", testOutput, allpayment);
 
+	}
+	@Test
+	public void testDeletePayment() {
+
+		// Given a list with two payment objects, after deleting 1 item, the size of the list is 1 - normal
+		// The item that was not deleted is as same as the first item of the list
+		C206_CaseStudy.addPayment(PaymentList, p1);
+		C206_CaseStudy.addPayment(PaymentList, p2);
+		C206_CaseStudy.doDeletePayment(PaymentList, p1);
+		assertEquals("Check that Payment arraylist size is 1", 1, PaymentList.size());
+		assertSame("Check that the payment that was not delete remains", p2, PaymentList.get(0));
+		
+		// Delete an item that has missing detail
+		Payment p_missing = new Payment("1234-1234-1234-1234", "Johnny Bob",null,567.80 );
+		C206_CaseStudy.doDeletePayment(PaymentList, p_missing);
+		assertEquals("Test that the Payment arraylist size is unchange.", 1, PaymentList.size());
+
+		// Delete an item that does not exist in the list
+		Payment p_notInList = new Payment("2345-2345-2345-2345", "Ibrahim", LocalDateTime.of(2021, 12, 9, 10, 30), 567.80);
+		C206_CaseStudy.doDeletePayment(PaymentList, p_notInList);
+		assertEquals("Test that the Payment arraylist size is unchange.", 1, PaymentList.size());
 	}
 
 	@After

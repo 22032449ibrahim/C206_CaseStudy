@@ -19,7 +19,7 @@ public class C206_CaseStudy {
 		// view options
 		int option = 0;
 		C206_CaseStudy.menu();
-		while (option != 5) {
+		while (option != 16) {
 
 			option = Helper.readInt("Enter an option > ");
 
@@ -80,7 +80,7 @@ public class C206_CaseStudy {
 				System.out.println("Invalid option");
 
 			}
-			if (Helper.readChar("\nMenu? (Y/N) >") == 'Y') {
+			if (option!=16&&Helper.readChar("\nMenu? (Y/N) >") == 'Y') {
 				C206_CaseStudy.menu();
 			}
 
@@ -110,10 +110,7 @@ public class C206_CaseStudy {
 		System.out.println("13. Add a new Payment");
 		System.out.println("14. View all Payments");
 		System.out.println("15. Delete an existing Payment");
-		Helper.line(80, "-");
-		System.out.println("16. Quit");
-		Helper.line(80, "-");
-
+		C206_CaseStudy.setHeader("16. Quit");
 	}
 
 	// set header
@@ -148,12 +145,9 @@ public class C206_CaseStudy {
 
 	// retrieve and view all payments
 	public static String retrieveAllPayments(ArrayList<Payment> PaymentList) {
-		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");
 		String output = "";
-		for (int i = 0; i < PaymentList.size(); i++) {
-			output += String.format("%-30s %-20s %-20s %-10.2f\n", PaymentList.get(i).getCardNumber(),
-					PaymentList.get(i).getCardHolder(), PaymentList.get(i).getPaymentdate().format(f),
-					PaymentList.get(i).getAmount());
+		for (int i = 0; i < PaymentList.size(); i++) {			
+			output += String.format("%-80s\n", PaymentList.get(i).toString());
 		}
 		return output;
 	}
@@ -166,7 +160,7 @@ public class C206_CaseStudy {
 		System.out.println(output);
 	}
 
-	// ================================= Option 2 Add an item (CRUD -
+	// ================================= Option 2 Adding (CRUD -
 	// Create)=================================
 
 	// Input and Add Users
@@ -181,8 +175,8 @@ public class C206_CaseStudy {
 	public static Payment inputPayment() {
 		String cardNum = Helper.readString("Enter Card Number > ");
 		String cardHolder = Helper.readString("Enter Card Holder > ");
-		LocalDateTime paymentDateTime = LocalDateTime.now();
 		Double amt = Helper.readDouble("Enter amount > ");
+		LocalDateTime paymentDateTime = LocalDateTime.now();
 
 		Payment p = new Payment(cardNum, cardHolder, paymentDateTime, amt);
 		return p;
@@ -191,13 +185,18 @@ public class C206_CaseStudy {
 
 	public static void addPayment(ArrayList<Payment> PaymentList, Payment p) {
 		Payment p1;
+		String actualCardNumber = p.getCardNumber();
 		for (int i = 0; i < PaymentList.size(); i++) {
 			p1 = PaymentList.get(i);
-			if (p1.getCardNumber().equalsIgnoreCase(p.getCardNumber()))
+			String checkCardNumber = p1.getCardNumber();
+			if (checkCardNumber.equalsIgnoreCase(actualCardNumber))
 				return;
 		}
-		if ((p.getCardNumber().isEmpty()) || (p.getCardHolder().isEmpty()) || (p.getPaymentdate() == null)
-				|| (p.getAmount() == 0.00)) {
+		String actualCardHolder = p.getCardHolder();
+		LocalDateTime actualPaymentdate = p.getPaymentdate();
+		double actualAmount = p.getAmount();
+		if ((actualCardNumber.isEmpty()) || (actualCardHolder.isEmpty()) || (actualPaymentdate == null)
+				|| (actualAmount == 0.00)) {
 			return;
 		}
 		PaymentList.add(p);
@@ -218,12 +217,16 @@ public class C206_CaseStudy {
 	public static boolean doDeletePayment(ArrayList<Payment> PaymentList, Payment p) {
 
 		boolean isDeleted = false;
-		if (p.getAmount() == 0 || p.getCardHolder().isEmpty() || p.getCardNumber().isEmpty()
-				|| p.getPaymentdate() == null)
+		double amount = p.getAmount();
+		String cardHolder = p.getCardHolder();
+		String cardNumber = p.getCardNumber();
+		LocalDateTime paymentdate = p.getPaymentdate();
+		if (amount == 0 || cardHolder.isEmpty() || cardNumber.isEmpty() || paymentdate == null)
 			return false;
 
 		for (int i = 0; i < PaymentList.size(); i++) {
-			if (PaymentList.get(i).getCardHolder().equals(p.getCardHolder())) {
+			String checkCardHolder = PaymentList.get(i).getCardHolder();
+			if (checkCardHolder.equals(cardHolder)) {
 				PaymentList.remove(i);
 				isDeleted = true;
 			}
@@ -233,22 +236,22 @@ public class C206_CaseStudy {
 	}
 
 	public static void deletePayment(ArrayList<Payment> PaymentList) {
-	    C206_CaseStudy.viewAllPayments(PaymentList);
-	    String cardNum = Helper.readString("Enter Card Number > ");
-	    String cardHolder = Helper.readString("Enter Card Holder > ");
-	    String stringDateTime = Helper.readString("Enter Payment Date & Time (dd/MM/yyyy HH:mm) > ");
-	    Double amt = Helper.readDouble("Enter amount > ");
+		C206_CaseStudy.viewAllPayments(PaymentList);
+		String cardNum = Helper.readString("Enter Card Number > ");
+		String cardHolder = Helper.readString("Enter Card Holder > ");
+		Double amt = Helper.readDouble("Enter amount > ");
+		String stringDateTime = Helper.readString("Enter Payment Date & Time (dd/MM/yyyy HH:mm) > ");
 
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-	    LocalDateTime PaymentDateTime = LocalDateTime.parse(stringDateTime, formatter);
-	    Payment p = new Payment(cardNum, cardHolder, PaymentDateTime, amt);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		LocalDateTime PaymentDateTime = LocalDateTime.parse(stringDateTime, formatter);
+		Payment p = new Payment(cardNum, cardHolder, PaymentDateTime, amt);
 
-	    Boolean isDeleted = doDeletePayment(PaymentList, p);
-	    if (isDeleted == false) {
-	        System.out.println("Invalid Payment Details!");
-	    } else {
-	        System.out.println("Payment Deleted");
-	    }
+		Boolean isDeleted = doDeletePayment(PaymentList, p);
+		if (isDeleted == false) {
+			System.out.println("Invalid Payment Details!");
+		} else {
+			System.out.println("Payment Deleted");
+		}
 	}
 
 }

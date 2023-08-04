@@ -7,6 +7,9 @@ public class C206_CaseStudy {
 	private static final int OPTION_ADD_PAYMENT = 13;
 	private static final int OPTION_VIEW_PAYMENT = 14;
 	private static final int OPTION_DELETE_PAYMENT = 15;
+	private static final int OPTION_ADD_BID = 10;
+	private static final int OPTION_VIEW_BID = 11;
+	private static final int OPTION_DELETE_BID = 12;
 
 	public static void main(String[] args) {
 
@@ -15,7 +18,11 @@ public class C206_CaseStudy {
 				.add(new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20));
 		PaymentList
 				.add(new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
-
+		
+		ArrayList<Bid> BidList = new ArrayList<Bid>();
+		BidList.add(new Bid(1,2542624.66,LocalDateTime.of(2021, 12, 12, 10, 30)));
+		BidList.add(new Bid(2, 2542674.36,LocalDateTime.of(2022, 4, 5, 10, 30)));
+		
 		// view options
 		int option = 0;
 		C206_CaseStudy.menu();
@@ -50,15 +57,18 @@ public class C206_CaseStudy {
 			} else if (option == 9) {
 				// Delete existing item
 
-			} else if (option == 10) {
+			} else if (option == OPTION_ADD_BID) {
 				// Add bid
+				Bid b = inputBid();
+				C206_CaseStudy.addBid(BidList,b);
+				System.out.println("Bid added");
 
-			} else if (option == 11) {
+			} else if (option == OPTION_VIEW_BID) {
 				// View all bids
-
-			} else if (option == 12) {
+				C206_CaseStudy.viewAllBids(BidList);
+			} else if (option == OPTION_DELETE_BID) {
 				// Delete existing bid
-
+				C206_CaseStudy.DeleteBid(BidList);
 			} else if (option == OPTION_ADD_PAYMENT) {
 				// Add payment
 				Payment p = inputPayment();
@@ -103,14 +113,18 @@ public class C206_CaseStudy {
 		System.out.println("8. View all Items");
 		System.out.println("9. Delete an existing Item");
 		C206_CaseStudy.setHeader("BID");
-		System.out.println("10. Add a new Bid");
-		System.out.println("11. View all Bids");
-		System.out.println("12. Delete an existing Bid");
+		bidoptions();
 		C206_CaseStudy.setHeader("PAYMENT");
 		System.out.println("13. Add a new Payment");
 		System.out.println("14. View all Payments");
 		System.out.println("15. Delete an existing Payment");
 		C206_CaseStudy.setHeader("16. Quit");
+	}
+
+	public static void bidoptions() {
+		System.out.println("10. Add a new Bid");
+		System.out.println("11. View all Bids");
+		System.out.println("12. Delete an existing Bid");
 	}
 
 	// set header
@@ -142,12 +156,28 @@ public class C206_CaseStudy {
 	// retrieve and view all items
 
 	// retrieve and view all bids
+	public static String retrieveAllBids(ArrayList<Bid> BidList) {
+		String output = "";
 
+		for (int i = 0; i < BidList.size(); i++) {
+
+			output += String.format("%-50s\n", BidList.get(i).toString());
+		}
+		return output;
+	}
+
+	public static void viewAllBids(ArrayList<Bid> BidList) {
+		C206_CaseStudy.setHeader("BID LIST");
+		String output = String.format("%-10s%-30s%-10s\n", "BID ID", "BID START DATE TIME","BID AMOUNT");
+		 output += retrieveAllBids(BidList);	
+		System.out.println(output);
+	}
+	
 	// retrieve and view all payments
 	public static String retrieveAllPayments(ArrayList<Payment> PaymentList) {
 		String output = "";
 		for (int i = 0; i < PaymentList.size(); i++) {			
-			output += String.format("%-80s\n", PaymentList.get(i).toString());
+			output += String.format("%-50s\n", PaymentList.get(i).toString());
 		}
 		return output;
 	}
@@ -170,7 +200,29 @@ public class C206_CaseStudy {
 	// Input and Add items
 
 	// Input and Add bids
+	public static Bid inputBid() {
+		int bidId = Helper.readInt("Enter Bid ID > ");
+		double bidamount = Helper.readDouble("Enter Bid amount > ");
+		LocalDateTime BidStartDateTime = LocalDateTime.now();
 
+		Bid b= new Bid(bidId,bidamount, BidStartDateTime);
+		return b;
+		
+	}
+	public static void addBid(ArrayList<Bid> BidList, Bid b) {
+		Bid b1;
+		for(int i = 0; i < BidList.size(); i++) {
+			b1 = BidList.get(i);
+			if (b1.getBidId()==(b.getBidId()))
+				return;
+		}
+		LocalDateTime actualBidStartDateTime = b.getBidStartDateTime();
+		if ((b.getBidId()==0)||(b.getBidamount()==0.00) || (actualBidStartDateTime == null)) {
+			return;
+		}
+		BidList.add(b);
+		
+	}
 	// Input and Add payments
 	public static Payment inputPayment() {
 		String cardNum = Helper.readString("Enter Card Number > ");
@@ -212,7 +264,45 @@ public class C206_CaseStudy {
 	// exist and delete items
 
 	// exist and delete bids
+	public static boolean doDeleteBid(ArrayList<Bid> BidList,Bid b) {
+		boolean isDeleted = false;
+		LocalDateTime actualBidStartDateTime = b.getBidStartDateTime();
+		if ((b.getBidId()==0)||(b.getBidamount()==0.00) || (actualBidStartDateTime == null))
+			return false;
+		
+		for (int i = 0; i < BidList.size(); i++) {
+			Bid currentBid = BidList.get(i);
+	        boolean getBidAmount = currentBid.getBidamount() == b.getBidamount();
+			boolean getBidStartDatetime = currentBid.getBidStartDateTime().equals(b.getBidStartDateTime());
+			if (getBidAmount && getBidStartDatetime) {
+	        	BidList.remove(i);
+	            isDeleted = true;
+	            
+				
+			}
+		}
+		return isDeleted;
+		
+	}
 
+	public static void DeleteBid(ArrayList<Bid> BidList) {
+		C206_CaseStudy.viewAllBids(BidList);
+		int bidId = Helper.readInt("Enter Bid ID > ");
+		Bid correctBid = null;
+		for(Bid B:BidList) {
+			if(B.getBidId()==bidId) {
+				 correctBid=B;
+			}
+		}
+		Boolean isDeleted = doDeleteBid(BidList, correctBid);
+		
+		if (isDeleted == false) {
+			System.out.println("Invalid bid ID");
+		} else {
+			System.out.println("Bid deleted");
+		}
+	}
+				
 	// exist and delete payments
 	public static boolean doDeletePayment(ArrayList<Payment> PaymentList, Payment p) {
 

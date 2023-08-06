@@ -13,9 +13,12 @@ public class C206_CaseStudyTest {
 	private Payment p2;
 	private Bid b1;
 	private Bid b2;
+	private User u1;
+	private User u2;
 
 	private ArrayList<Payment> PaymentList;
 	private ArrayList<Bid> BidList;
+	private ArrayList<User> UserList;
 
 	public C206_CaseStudyTest() {
 		super();

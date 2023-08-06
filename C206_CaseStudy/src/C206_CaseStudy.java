@@ -4,6 +4,9 @@ import java.time.format.DateTimeFormatter;
 
 public class C206_CaseStudy {
 
+	private static final int OPTION_DELETE_USER = 3;
+	private static final int OPTION_ADD_USER = 1;
+	private static final int OPTION_VIEW_USER = 2;
 	private static final int OPTION_ADD_PAYMENT = 13;
 	private static final int OPTION_VIEW_PAYMENT = 14;
 	private static final int OPTION_DELETE_PAYMENT = 15;
@@ -23,6 +26,11 @@ public class C206_CaseStudy {
 		BidList.add(new Bid(1,2542624.66,LocalDateTime.of(2021, 12, 12, 10, 30)));
 		BidList.add(new Bid(2, 2542674.36,LocalDateTime.of(2022, 4, 5, 10, 30)));
 		
+		
+		ArrayList<User> UserList = new ArrayList<User>();
+		UserList.add(new User("Sung Hanbin", "SHB01", "0613SHB"));
+		UserList.add(new User("Mark Lee", "MKL02", "0207MKLEE"));
+		
 		// view options
 		int option = 0;
 		C206_CaseStudy.menu();
@@ -30,14 +38,19 @@ public class C206_CaseStudy {
 
 			option = Helper.readInt("Enter an option > ");
 
-			if (option == 1) {
+			if (option == OPTION_ADD_USER) {
 				// Add user
+				User u = inputUser();
+				C206_CaseStudy.addUser(UserList, u);
+				System.out.println("User added");
 
-			} else if (option == 2) {
+			} else if (option == OPTION_VIEW_USER) {
 				// View all user
+				C206_CaseStudy.viewAllUsers(UserList);
 
-			} else if (option == 3) {
+			} else if (option == OPTION_DELETE_USER) {
 				// Delete existing user
+				C206_CaseStudy.DeleteUser(UserList);
 
 			} else if (option == 4) {
 				// Add auction
@@ -103,7 +116,7 @@ public class C206_CaseStudy {
 		C206_CaseStudy.setHeader("USER");
 		System.out.println("1. Add a new User");
 		System.out.println("2. View all Users");
-		System.out.println("3. Delete an existing Item");
+		System.out.println("3. Delete an existing User");
 		C206_CaseStudy.setHeader("AUCTION");
 		System.out.println("4. Add a new Auction");
 		System.out.println("5. View all Auction");
@@ -150,6 +163,21 @@ public class C206_CaseStudy {
 	// (CRUD-Read)=================================
 
 	// retrieve and view all Users
+	public static String retrieveAllUsers(ArrayList<User> UserList ) {
+		String output = "";
+		for(int i = 0; i < UserList.size(); i++) {
+			output += String.format("%-10s %15s\n", UserList.get(i).getName(), UserList.get(i).getUserID());
+		}
+		return output;
+		
+	}
+	
+	public static void viewAllUsers(ArrayList<User> UserList) {
+		C206_CaseStudy.setHeader("USER LIST");
+		String output = String.format("%-10s %15s\n", "NAME","USERID");
+		output += retrieveAllUsers(UserList);	
+		System.out.println(output);
+	}
 
 	// retrieve and view all auction
 
@@ -165,6 +193,7 @@ public class C206_CaseStudy {
 		}
 		return output;
 	}
+	
 
 	public static void viewAllBids(ArrayList<Bid> BidList) {
 		C206_CaseStudy.setHeader("BID LIST");
@@ -194,6 +223,28 @@ public class C206_CaseStudy {
 	// Create)=================================
 
 	// Input and Add Users
+	public static User inputUser() {
+			String name = Helper.readString("Enter Name > ");
+			String userID = Helper.readString("Enter UserID > ");
+			String password = Helper.readString("Enter Password > ");
+
+			User u = new User(name, userID, password);
+			return u;
+
+		}
+
+		public static void addUser(ArrayList<User> UserList, User u) {
+			User u1;
+			String actualUserID = u.getUserID();
+			for (int i = 0; i < UserList.size(); i++) {
+				u1 = UserList.get(i);
+				String checkUser = u1.getUserID();
+				if (checkUser.equalsIgnoreCase(actualUserID))
+					return;
+			}
+			UserList.add(u);
+			
+	}
 
 	// Input and Add auction
 
@@ -258,6 +309,40 @@ public class C206_CaseStudy {
 	// delete)=================================
 
 	// exist and delete Users
+	public static boolean doDeleteUser(ArrayList<User> UserList, User u) {
+		boolean isDeleted = false;
+		String userID = u.getUserID();
+		if (userID.isEmpty())
+			return false;
+		
+		for(int i = 0; i < UserList.size(); i++) {
+			String checkUser = UserList.get(i).getUserID();
+			if (checkUser.equals(userID)) {
+				UserList.remove(i);
+				isDeleted = true;
+			}
+		}
+		return isDeleted;
+	}
+	
+	public static void DeleteUser(ArrayList<User> UserList) {
+		C206_CaseStudy.viewAllUsers(UserList);
+		String userID = Helper.readString("Enter userID > ");
+		User correctUser = null;
+		for(User U : UserList) {
+			if(U.getUserID() == userID) {
+				correctUser = U;
+				//break; // Stop looping once the correct user is found
+			}
+		}
+		Boolean isDeleted = doDeleteUser(UserList, correctUser);
+		if(isDeleted == false) {
+			System.out.println("Invalid user ID");
+		}else {
+			System.out.println("User deleted");
+		}
+}
+	
 
 	// exist and delete auction
 

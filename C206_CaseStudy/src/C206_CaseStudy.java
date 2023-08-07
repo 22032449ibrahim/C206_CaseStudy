@@ -16,6 +16,10 @@ public class C206_CaseStudy {
 		PaymentList
 				.add(new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
 
+		ArrayList<Item> itemList = new ArrayList<Item>();
+		itemList.add(new Item("starry night", "by van gogh", 5999.99));
+		itemList.add(new Item("the poppy field", "by claude monet", 4999.99));
+
 		// view options
 		int option = 0;
 		C206_CaseStudy.menu();
@@ -43,12 +47,17 @@ public class C206_CaseStudy {
 
 			} else if (option == 7) {
 				// Add item
+				Item item = inputItem();
+				C206_CaseStudy.addItem(itemList, item);
+				System.out.println("Item added");
 
 			} else if (option == 8) {
-				// View all item
+				// View all items
+				C206_CaseStudy.viewAllItems(itemList);
 
 			} else if (option == 9) {
 				// Delete existing item
+				C206_CaseStudy.deleteItem(itemList);
 
 			} else if (option == 10) {
 				// Add bid
@@ -80,10 +89,9 @@ public class C206_CaseStudy {
 				System.out.println("Invalid option");
 
 			}
-			if (option!=16&&Helper.readChar("\nMenu? (Y/N) >") == 'Y') {
+			if (option != 16 && Helper.readChar("\nMenu? (Y/N) >") == 'Y') {
 				C206_CaseStudy.menu();
 			}
-
 		}
 	}
 
@@ -140,13 +148,28 @@ public class C206_CaseStudy {
 	// retrieve and view all auction
 
 	// retrieve and view all items
+	public static String retrieveAllItems(ArrayList<Item> itemList) {
+		String output = "";
+		for (int i = 0; i < itemList.size(); i++) {
+			output += String.format("%-80s\n", itemList.get(i).toString());
+		}
+		return output;
+	}
+
+	public static void viewAllItems(ArrayList<Item> itemList) {
+		C206_CaseStudy.setHeader("ITEM LIST");
+		String output = String.format("%-30s %-20s %-20s\n", "ITEM NAME", "DESCRIPTION", "START BID");
+		output += retrieveAllItems(itemList);
+		System.out.println(output);
+
+	}
 
 	// retrieve and view all bids
 
 	// retrieve and view all payments
 	public static String retrieveAllPayments(ArrayList<Payment> PaymentList) {
 		String output = "";
-		for (int i = 0; i < PaymentList.size(); i++) {			
+		for (int i = 0; i < PaymentList.size(); i++) {
 			output += String.format("%-80s\n", PaymentList.get(i).toString());
 		}
 		return output;
@@ -168,6 +191,31 @@ public class C206_CaseStudy {
 	// Input and Add auction
 
 	// Input and Add items
+	public static Item inputItem() {
+		String itemName = Helper.readString("Enter item name > ");
+		String description = Helper.readString("Enter description > ");
+		double startBid = Helper.readDouble("Enter start bid > ");
+
+		Item item = new Item(itemName, description, startBid);
+		return item;
+	}
+
+	public static void addItem(ArrayList<Item> itemList, Item item) {
+		Item a;
+		String actualItemName = item.getItemName();
+		for (int i = 0; i < itemList.size(); i++) {
+			a = itemList.get(i);
+			String checkItemNumber = a.getItemName();
+			if (checkItemNumber.equalsIgnoreCase(actualItemName))
+				return;
+		}
+		String actualDes = item.getDescription();
+		double actualStartBid = item.getStartBid();
+		if ((actualItemName.isEmpty()) || (actualDes.isEmpty()) || (actualStartBid == 0.00)) {
+			return;
+		}
+		itemList.add(item);
+	}
 
 	// Input and Add bids
 
@@ -210,6 +258,40 @@ public class C206_CaseStudy {
 	// exist and delete auction
 
 	// exist and delete items
+	public static boolean doDeleteItem(ArrayList<Item> itemList, Item item) {
+
+		boolean isDeleted = false;
+		double startBid = item.getStartBid();
+		String itemName = item.getItemName();
+		String description = item.getDescription();
+		if (startBid == 0 || itemName.isEmpty() || description.isEmpty())
+			return false;
+
+		for (int i = 0; i < itemList.size(); i++) {
+			String checkItemName = itemList.get(i).getItemName();
+			if (checkItemName.equals(itemName)) {
+				itemList.remove(i);
+				isDeleted = true;
+			}
+		}
+		return isDeleted;
+	}
+	
+	public static void deleteItem(ArrayList<Item> itemList) {
+		C206_CaseStudy.viewAllItems(itemList);
+		String itemName = Helper.readString("Enter item name > ");
+		String description = Helper.readString("Enter description > ");
+		Double startBid = Helper.readDouble("Enter start bid > ");
+
+		Item i = new Item(itemName, description, startBid);
+
+		Boolean isDeleted = doDeleteItem(itemList, i);
+		if (isDeleted == false) {
+			System.out.println("Invalid item Details!");
+		} else {
+			System.out.println("Item Deleted");
+		}
+	}
 
 	// exist and delete bids
 

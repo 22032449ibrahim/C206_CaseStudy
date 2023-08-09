@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class C206_CaseStudy {
@@ -15,6 +17,13 @@ public class C206_CaseStudy {
 				.add(new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20));
 		PaymentList
 				.add(new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
+		
+		List<String> items1 = new ArrayList<>();
+		items1.add("Item 1");
+		items1.add("Item 2");
+
+		ArrayList<Auction> AuctionList = new ArrayList<Auction>();
+		AuctionList.add(new Auction("Auction 1", "Home Furniture", LocalTime.of(8, 40), LocalTime.of(12, 10), items1));
 
 		// view options
 		int option = 0;
@@ -34,12 +43,17 @@ public class C206_CaseStudy {
 
 			} else if (option == 4) {
 				// Add auction
+				Auction auction = inputAuction();
+				C206_CaseStudy.addAuction(AuctionList, auction);
+				System.out.println("Auction Successfully Added");
 
 			} else if (option == 5) {
 				// View all auction
+				C206_CaseStudy.viewAllAuctions(AuctionList);
 
 			} else if (option == 6) {
 				// Delete existing auction
+				C206_CaseStudy.toDeleteAuction(AuctionList);
 
 			} else if (option == 7) {
 				// Add item
@@ -138,6 +152,21 @@ public class C206_CaseStudy {
 	// retrieve and view all Users
 
 	// retrieve and view all auction
+	public static String retrieveAllAuctions(ArrayList<Auction> AuctionList) {
+		String output = "";
+		for (int i = 0; i < AuctionList.size(); i++) {			
+			output += String.format("%-80s\n", AuctionList.get(i).toString());
+	}
+		return output;
+		
+	}
+
+	public static void viewAllAuctions(ArrayList<Auction> AuctionList) {
+        C206_CaseStudy.setHeader("AUCTION LIST");
+        String output = String.format("%-15s %-20s %-15s %-10s %-20s\n", "TITLE", "DESCRIPTION", "START TIME", "END TIME", "ITEMS AVAILABLE");
+        output += retrieveAllAuctions(AuctionList);
+        System.out.println(output);
+    }
 
 	// retrieve and view all items
 
@@ -166,6 +195,37 @@ public class C206_CaseStudy {
 	// Input and Add Users
 
 	// Input and Add auction
+	public static Auction inputAuction() {
+		String title = Helper.readString("Enter Title of Auction > ");
+		String description = Helper.readString("Enter Description of Auction > ");
+		LocalTime startTime = LocalTime.parse(Helper.readString("Enter Start Time in the format HH:mm > "));
+        LocalTime endTime = LocalTime.parse(Helper.readString("Enter End Time in the format HH:mm > "));
+        
+        List<String> itemsAvailable = new ArrayList<>();
+        int itemCount = Helper.readInt("Enter the number of items available in the auction > ");
+        for (int i = 1; i <= itemCount; i++) {
+            String item = Helper.readString("Enter Item " + i + " > ");
+            itemsAvailable.add(item);
+        }
+        
+        return new Auction(title, description, startTime, endTime, itemsAvailable);
+    
+	}
+	
+	public static void addAuction(ArrayList<Auction> AuctionList, Auction auction) {
+		String title = auction.getTitle();
+		String description = auction.getDescription();
+		LocalTime startTime = auction.getStartTime();
+		LocalTime endTime = auction.getEndTime();
+		List<String> itemsAvailable = auction.getItemsAvailable();
+		if ((title.isEmpty()) || (description.isEmpty()) || (startTime == null) || (endTime == null)
+				|| (itemsAvailable.isEmpty())) {
+			return;
+		}
+		AuctionList.add(auction);
+		
+		
+	}
 
 	// Input and Add items
 
@@ -208,6 +268,52 @@ public class C206_CaseStudy {
 	// exist and delete Users
 
 	// exist and delete auction
+	public static boolean deleteAuction(ArrayList<Auction> AuctionList, Auction auction) {
+
+		boolean isDeleted = false;
+		String title = auction.getTitle();
+		String description = auction.getDescription();
+		LocalTime startTime = auction.getStartTime();
+		LocalTime endTime = auction.getEndTime();
+		List<String> itemsAvailable = auction.getItemsAvailable();
+		if ((title.isEmpty()) || (description.isEmpty()) || (startTime == null) || (endTime == null)
+		        || (itemsAvailable.isEmpty())) 
+		    return false;
+
+		for (int i = 0; i < AuctionList.size(); i++) {
+			String checkTitle = AuctionList.get(i).getTitle();
+			if(checkTitle.equals(title)) {
+				AuctionList.remove(i);
+				isDeleted = true;
+			}
+		}
+		return isDeleted;
+
+	}
+	
+	public static void toDeleteAuction(ArrayList<Auction> AuctionList) {
+		C206_CaseStudy.viewAllAuctions(AuctionList);
+		String title = Helper.readString("Enter Title of Auction > ");
+		String description = Helper.readString("Enter Description of Auction > ");
+		LocalTime startTime = LocalTime.parse(Helper.readString("Enter Start Time in the format HH:mm > "));
+        LocalTime endTime = LocalTime.parse(Helper.readString("Enter End Time in the format HH:mm > "));
+        
+        List<String> itemsAvailable = new ArrayList<>();
+        int itemCount = Helper.readInt("Enter the number of items available in the auction > ");
+        for (int i = 1; i <= itemCount; i++) {
+            String item = Helper.readString("Enter Item " + i + " > ");
+            itemsAvailable.add(item);
+		Auction auction = new Auction(title, description, startTime, endTime, itemsAvailable);
+
+		Boolean isDeleted = deleteAuction(AuctionList, auction);
+		if (isDeleted == false) {
+			System.out.println("Invalid Auction Details!");
+		} else {
+			System.out.println("Auction Deleted");
+			}
+        }
+	}
+
 
 	// exist and delete items
 

@@ -31,8 +31,7 @@ public class C206_CaseStudy {
 		AuctionList.add(new Auction("Auction 1", "Home Furniture", LocalTime.of(8, 40), LocalTime.of(12, 10), items1));
 		AuctionList.add(new Auction("Auction 2", "Room Furniture", LocalTime.of(10, 00), LocalTime.of(12, 30), items2));
 		
-		
-
+	
 		// view options
 		int option = 0;
 		C206_CaseStudy.menu();

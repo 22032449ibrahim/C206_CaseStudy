@@ -19,11 +19,19 @@ public class C206_CaseStudy {
 				.add(new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
 		
 		List<String> items1 = new ArrayList<>();
-		items1.add("Item 1");
-		items1.add("Item 2");
+		items1.add("Lamp");
+		items1.add("Carpet");
+		
+		List<String> items2 = new ArrayList<>();
+		items2.add("Chair");
+		items2.add("Table");
+		items2.add("Plants");
 
 		ArrayList<Auction> AuctionList = new ArrayList<Auction>();
 		AuctionList.add(new Auction("Auction 1", "Home Furniture", LocalTime.of(8, 40), LocalTime.of(12, 10), items1));
+		AuctionList.add(new Auction("Auction 2", "Room Furniture", LocalTime.of(10, 00), LocalTime.of(12, 30), items2));
+		
+		
 
 		// view options
 		int option = 0;

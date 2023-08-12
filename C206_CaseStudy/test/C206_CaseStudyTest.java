@@ -11,23 +11,18 @@ public class C206_CaseStudyTest {
 
 	private Payment p1;
 	private Payment p2;
-<<<<<<< HEAD
 	private Item item1;
 	private Item item2;
-=======
 	private Bid b1;
 	private Bid b2;
-	private User u1;
-	private User u2;
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
+	private User user1;
+	private User user2;
 
 	private ArrayList<Payment> PaymentList;
-<<<<<<< HEAD
 	private ArrayList<Item> itemList;
-=======
+
 	private ArrayList<Bid> BidList;
 	private ArrayList<User> UserList;
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
 
 	public C206_CaseStudyTest() {
 		super();
@@ -40,9 +35,13 @@ public class C206_CaseStudyTest {
 		p2 = new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45);
 		item1 = new Item("starry night", "by van gogh", 5999.99);
 		item2 = new Item("the poppy field", "by claude monet", 4999.99);
+		user1 = new User("Sung Hanbin", "SHB01", "sunghanbin20@gmail.com", "Administrator", "0613SHB");
+		user2 = new User("Mark Lee", "MKL02", "marklee127@gmail.com", "User", "0207MKLEE");
+
 
 		PaymentList = new ArrayList<Payment>();
 		itemList = new ArrayList<Item>();
+		UserList = new ArrayList<User>();
 	}
 
 	@Test
@@ -184,6 +183,80 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.doDeleteItem(itemList, item_notInList);
 		assertEquals("Test that the Item arraylist size is unchange.", 1, itemList.size());
 	}
+	@Test
+	public void testAddUser() {
+		// fail("Not yet implemented");
+		
+		// User list is not null, so that can add a new User - boundary
+		assertNotNull("Check if there is valid User arraylist to add to", UserList);
+
+		// Given an empty list, after adding 1 user, the size of the list is 1 - normal
+		// The user just added is as same as the first item of the list
+		C206_CaseStudy.addUser(UserList, user1);
+		assertEquals("Check that user arraylist size is 1", 1, UserList.size());
+		assertSame("Check that user is added", user1, UserList.get(0));
+
+		// Add another user. test The size of the list is 2? -normal
+		// The user just added is as same as the second user of the list
+		C206_CaseStudy.addUser(UserList, user2);
+		assertEquals("Check that User arraylist size is 2", 2, UserList.size());
+		assertSame("Check that User is added", user2, UserList.get(1));
+
+		// Add a user that has missing detail
+		User u_missing = new User("invalid user", "INV01", null, "Administrator", "INV031");
+		C206_CaseStudy.addUser(UserList, u_missing);
+		assertEquals("Test that the user arraylist size is unchange.", 2, UserList.size());
+
+	}
+	
+	
+	@Test
+	public void testRetrieveAllUsers() {
+		// Test if user List is not null and empty
+		assertNotNull("Test if there is valid user arraylist to add to", UserList);
+		assertEquals("Test that the user arraylist is empty.", 0, UserList.size());
+		// Attempt to retrieve the Users
+		String allUsers = C206_CaseStudy.retrieveAllUsers(UserList);
+		String testOutput = "";
+		// Test if the output is empty
+		assertEquals("Test that nothing is displayed", testOutput, allUsers);
+		
+		// Test case 2
+		C206_CaseStudy.addUser(UserList, user1);
+		C206_CaseStudy.addUser(UserList, user2);
+		// Test that the list is not empty
+		assertEquals("Test that user arrayList size is 2.", 2, UserList.size());
+		//Attempt to retrieve the Users
+		allUsers = C206_CaseStudy.retrieveAllUsers(UserList);
+		testOutput += String.format("%-30s %-20s %-50s %-20s\n", "Sung Hanbin", "SHB01", "sunghanbin20@gmail.com", "Administrator", "0613SHB");
+		testOutput += String.format("%-30s %-20s %-50s %-20s\n", "Mark Lee", "MKL02", "marklee127@gmail.com", "User", "0207MKLEE");
+		//Test that the details are displayed correctly
+		assertEquals("Test that the display is correct.", testOutput, allUsers);
+
+		
+	}
+	@Test
+	public void testDeleteUser() {
+		//Given a list with two user objects, after deleting 1 user, the size of the list is 1
+		// The item that was not deleted is as same as the first item of the list
+		C206_CaseStudy.addUser(UserList, user1);
+		C206_CaseStudy.addUser(UserList, user2);
+		C206_CaseStudy.doDeleteUser(UserList, user1);
+		assertEquals("Check that User arraylist size is 1",1, UserList.size());
+		assertSame("Check that the User that was not deleted remains", user2, UserList.get(0));
+		
+		//Delete a User that has missing details
+		User u_missing = new User("Sung Hanbin", "SHB01", null, "Administrator", "0613SHB");
+		C206_CaseStudy.doDeleteUser(UserList, u_missing);
+		assertEquals("Test that the User arrayList size is unchanged." , 1, UserList.size());
+		
+		// Delete a user that does not exist in the list
+		User u_notInList = new User("Mimi", "Mimi01", "mimi@gmail.com", "User", "mimisx");
+		C206_CaseStudy.doDeleteUser(UserList, u_notInList);
+		assertEquals("Test that the user arraylist size is unchanged.", 1, UserList.size());
+		
+	}
+	
 
 	@After
 	public void tearDown() throws Exception {
@@ -192,8 +265,12 @@ public class C206_CaseStudyTest {
 		p2 = null;
 		item1 = null;
 		item2 = null;
+		user1 = null;
+		user2 = null;
 		PaymentList = null;
 		itemList = null;
+		UserList = null;
+		
 	}
 	@Before
 	public void setUp1() throws Exception {

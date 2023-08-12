@@ -147,12 +147,13 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addAuction(AuctionList, a_missing);
 		assertEquals("Test that the Auction arraylist size is unchange.", 2, AuctionList.size());
 	}
+	
 	@Test
 	public void testRetrieveAllAuctions() {
 		// Test if Item list is not null and empty
 		assertNotNull("Test if there is valid auction arraylist to add to", AuctionList);
 		assertEquals("Test that the auction arraylist is empty.", 0, AuctionList.size());
-		// Attempt to retrieve the payment
+		// Attempt to retrieve the auction
 		String allauction = C206_CaseStudy.retrieveAllAuctions(AuctionList);
 		String testOutput = "";
 		// Test if the output is empty
@@ -188,7 +189,7 @@ public class C206_CaseStudyTest {
 		// The item that was not deleted is as same as the first item of the list
 		C206_CaseStudy.addAuction(AuctionList, a1);
 		C206_CaseStudy.addAuction(AuctionList, a2);
-		C206_CaseStudy.deleteAuction(AuctionList, a1);
+		C206_CaseStudy.doDeleteAuction(AuctionList, a1);
 		assertEquals("Check that Auction arraylist size is 1", 1, AuctionList.size());
 		assertSame("Check that the auction that was not delete remains", a2, AuctionList.get(0));
 		
@@ -199,14 +200,14 @@ public class C206_CaseStudyTest {
 		items2.add("Plants");
 		
 		Auction a_missing = new Auction("Auction 2", "Room Furniture", null, LocalTime.of(12, 30), items2);
-		C206_CaseStudy.deleteAuction(AuctionList, a_missing);
+		C206_CaseStudy.doDeleteAuction(AuctionList, a_missing);
 		assertEquals("Test that the Auction arraylist size is unchange.", 1, AuctionList.size());
 
 		// Delete an item that does not exist in the list
 		List<String> items3 = new ArrayList<>();
 		items3.add("Laptop");
 		Auction a_notInList = new Auction("Auction 6", "Electronics", LocalTime.of(10, 10), LocalTime.of(04, 30), items3);
-		C206_CaseStudy.deleteAuction(AuctionList, a_notInList);
+		C206_CaseStudy.doDeleteAuction(AuctionList, a_notInList);
 		assertEquals("Test that the Auction arraylist size is unchange.", 1, AuctionList.size());
 	}
 	

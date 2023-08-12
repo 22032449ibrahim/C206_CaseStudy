@@ -9,6 +9,10 @@ public class C206_CaseStudy {
 	private static final int OPTION_ADD_PAYMENT = 13;
 	private static final int OPTION_VIEW_PAYMENT = 14;
 	private static final int OPTION_DELETE_PAYMENT = 15;
+	
+	private static final int OPTION_ADD_AUCTION = 4;
+	private static final int OPTION_VIEW_AUCTION = 5;
+	private static final int OPTION_DELETE_AUCTION = 6;
 
 	public static void main(String[] args) {
 
@@ -49,19 +53,19 @@ public class C206_CaseStudy {
 			} else if (option == 3) {
 				// Delete existing user
 
-			} else if (option == 4) {
+			} else if (option == OPTION_ADD_AUCTION) {
 				// Add auction
 				Auction auction = inputAuction();
 				C206_CaseStudy.addAuction(AuctionList, auction);
 				System.out.println("Auction Successfully Added");
 
-			} else if (option == 5) {
+			} else if (option == OPTION_VIEW_AUCTION) {
 				// View all auction
 				C206_CaseStudy.viewAllAuctions(AuctionList);
 
-			} else if (option == 6) {
+			} else if (option == OPTION_DELETE_AUCTION) {
 				// Delete existing auction
-				C206_CaseStudy.toDeleteAuction(AuctionList);
+				C206_CaseStudy.deleteAuction(AuctionList);
 
 			} else if (option == 7) {
 				// Add item
@@ -119,7 +123,7 @@ public class C206_CaseStudy {
 		C206_CaseStudy.setHeader("AUCTION");
 		System.out.println("4. Add a new Auction");
 		System.out.println("5. View all Auction");
-		System.out.println("6. Delete a existing Auction");
+		System.out.println("6. Delete an existing Auction");
 		C206_CaseStudy.setHeader("ITEM");
 		System.out.println("7. Add a new Item");
 		System.out.println("8. View all Items");
@@ -276,7 +280,7 @@ public class C206_CaseStudy {
 	// exist and delete Users
 
 	// exist and delete auction
-	public static boolean deleteAuction(ArrayList<Auction> AuctionList, Auction auction) {
+	public static boolean doDeleteAuction(ArrayList<Auction> AuctionList, Auction auction) {
 
 		boolean isDeleted = false;
 		String title = auction.getTitle();
@@ -300,7 +304,7 @@ public class C206_CaseStudy {
 
 	}
 	
-	public static void toDeleteAuction(ArrayList<Auction> AuctionList) {
+	public static void deleteAuction(ArrayList<Auction> AuctionList) {
 	    C206_CaseStudy.viewAllAuctions(AuctionList);
 	    String title = Helper.readString("Enter Title of Auction > ");
 	    String description = Helper.readString("Enter Description of Auction > ");
@@ -316,7 +320,7 @@ public class C206_CaseStudy {
 
 	    Auction auction = new Auction(title, description, startTime, endTime, itemsAvailable);
 
-	    Boolean isDeleted = deleteAuction(AuctionList, auction);
+	    Boolean isDeleted = doDeleteAuction(AuctionList, auction);
 	    if (isDeleted == false) {
 	        System.out.println("Invalid Auction Details!");
 	    } else {

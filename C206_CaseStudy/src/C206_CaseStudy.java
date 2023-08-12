@@ -26,6 +26,7 @@ public class C206_CaseStudy {
 		items2.add("Chair");
 		items2.add("Table");
 		items2.add("Plants");
+		
 
 		ArrayList<Auction> AuctionList = new ArrayList<Auction>();
 		AuctionList.add(new Auction("Auction 1", "Home Furniture", LocalTime.of(8, 40), LocalTime.of(12, 10), items1));

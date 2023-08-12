@@ -290,7 +290,8 @@ public class C206_CaseStudy {
 
 		for (int i = 0; i < AuctionList.size(); i++) {
 			String checkTitle = AuctionList.get(i).getTitle();
-			if(checkTitle.equals(title)) {
+			List<String> checkitems = AuctionList.get(i).getItemsAvailable();
+			if(checkTitle.equals(title) && checkitems.equals(itemsAvailable)) {
 				AuctionList.remove(i);
 				isDeleted = true;
 			}
@@ -300,27 +301,29 @@ public class C206_CaseStudy {
 	}
 	
 	public static void toDeleteAuction(ArrayList<Auction> AuctionList) {
-		C206_CaseStudy.viewAllAuctions(AuctionList);
-		String title = Helper.readString("Enter Title of Auction > ");
-		String description = Helper.readString("Enter Description of Auction > ");
-		LocalTime startTime = LocalTime.parse(Helper.readString("Enter Start Time in the format HH:mm > "));
-        LocalTime endTime = LocalTime.parse(Helper.readString("Enter End Time in the format HH:mm > "));
-        
-        List<String> itemsAvailable = new ArrayList<>();
-        int itemCount = Helper.readInt("Enter the number of items available in the auction > ");
-        for (int i = 1; i <= itemCount; i++) {
-            String item = Helper.readString("Enter Item " + i + " > ");
-            itemsAvailable.add(item);
-		Auction auction = new Auction(title, description, startTime, endTime, itemsAvailable);
+	    C206_CaseStudy.viewAllAuctions(AuctionList);
+	    String title = Helper.readString("Enter Title of Auction > ");
+	    String description = Helper.readString("Enter Description of Auction > ");
+	    LocalTime startTime = LocalTime.parse(Helper.readString("Enter Start Time in the format HH:mm > "));
+	    LocalTime endTime = LocalTime.parse(Helper.readString("Enter End Time in the format HH:mm > "));
 
-		Boolean isDeleted = deleteAuction(AuctionList, auction);
-		if (isDeleted == false) {
-			System.out.println("Invalid Auction Details!");
-		} else {
-			System.out.println("Auction Deleted");
-			}
-        }
+	    List<String> itemsAvailable = new ArrayList<>();
+	    int itemCount = Helper.readInt("Enter the number of items available in the auction > ");
+	    for (int i = 1; i <= itemCount; i++) {
+	        String item = Helper.readString("Enter Item " + i + " > ");
+	        itemsAvailable.add(item);
+	    }
+
+	    Auction auction = new Auction(title, description, startTime, endTime, itemsAvailable);
+
+	    Boolean isDeleted = deleteAuction(AuctionList, auction);
+	    if (isDeleted == false) {
+	        System.out.println("Invalid Auction Details!");
+	    } else {
+	        System.out.println("Auction Deleted");
+	    }
 	}
+
 
 
 	// exist and delete items

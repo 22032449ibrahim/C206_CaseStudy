@@ -227,7 +227,7 @@ public class C206_CaseStudy {
     }
 
 	// retrieve and view all items
-	
+	  
 
 	// retrieve and view all bids
 	public static String retrieveAllBids(ArrayList<Bid> BidList) {
@@ -497,7 +497,7 @@ public class C206_CaseStudy {
 			if (getBidAmount && getBidStartDatetime) {
 				BidList.remove(i);
 				isDeleted = true;
-
+				
 			}
 		}
 		return isDeleted;

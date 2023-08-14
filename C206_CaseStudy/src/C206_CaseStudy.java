@@ -16,6 +16,11 @@ public class C206_CaseStudy {
 	private static final int OPTION_ADD_AUCTION = 4;
 	private static final int OPTION_VIEW_AUCTION = 5;
 	private static final int OPTION_DELETE_AUCTION = 6;
+	
+
+	private static final int OPTION_ADD_ITEM = 7; 
+	private static final int OPTION_VIEW_ITEM = 8;
+	private static final int OPTION_DELETE_ITEM = 9;
 
 	private static final int OPTION_ADD_BID = 10;
 	private static final int OPTION_VIEW_BID = 11;
@@ -44,7 +49,9 @@ public class C206_CaseStudy {
 		AuctionList.add(new Auction("Auction 1", "Home Furniture", LocalTime.of(8, 40), LocalTime.of(12, 10), items1));
 		AuctionList.add(new Auction("Auction 2", "Room Furniture", LocalTime.of(10, 00), LocalTime.of(12, 30), items2));
 		
-	
+		ArrayList<Item> itemList = new ArrayList<Item>(); 
+		itemList.add(new Item("starry night", "by van gogh", 5999.99)); 
+		itemList.add(new Item("poppy field", "by claude monet", 4999.99));
 
 		ArrayList<Bid> BidList = new ArrayList<Bid>();
 		BidList.add(new Bid(1, 2542624.66, LocalDateTime.of(2021, 12, 12, 10, 30)));
@@ -90,13 +97,18 @@ public class C206_CaseStudy {
 				// Delete existing auction
 				C206_CaseStudy.deleteAuction(AuctionList);
 
-			} else if (option == 7) {
+			} else if (option == OPTION_ADD_ITEM) {
+				Item item = inputItem();
+				 C206_CaseStudy.addItem(itemList, item);    
+				 System.out.println("Item added");
 				// Add item
 
-			} else if (option == 8) {
+			} else if (option == OPTION_VIEW_ITEM) {
+				 C206_CaseStudy.viewAllItems(itemList);
 				// View all item
 
-			} else if (option == 9) {
+			} else if (option == OPTION_DELETE_ITEM) {
+				C206_CaseStudy.deleteItem(itemList);
 				// Delete existing item
 
 			} else if (option == OPTION_ADD_BID) {
@@ -226,7 +238,22 @@ public class C206_CaseStudy {
         System.out.println(output);
     }
 
-	// retrieve and view all items
+
+	// retrieve and view all items 
+	 public static String retrieveAllItems(ArrayList<Item> itemList) { 
+	  String output = ""; 
+	  for (int i = 0; i < itemList.size(); i++) { 
+	   output += String.format("%-70s\n", itemList.get(i).toString()); 
+	  } 
+	  return output; 
+	 } 
+	 
+	 public static void viewAllItems(ArrayList<Item> itemList) { 
+	  C206_CaseStudy.setHeader("ITEM LIST"); 
+	  String output = String.format("%-30s %-20s %-20s\n", "ITEM NAME", "DESCRIPTION", "START BID"); 
+	  output += retrieveAllItems(itemList); 
+	  System.out.println(output); 
+	 }
 	
 
 	// retrieve and view all bids
@@ -328,8 +355,34 @@ public class C206_CaseStudy {
 		
 	}
 
-	// Input and Add items
 
+	// Input and Add items 
+	 public static Item inputItem() { 
+	  String itemName = Helper.readString("Enter item name > "); 
+	  String description = Helper.readString("Enter description > "); 
+	  double startBid = Helper.readDouble("Enter start bid > "); 
+	 
+	  Item item = new Item(itemName, description, startBid); 
+	  return item; 
+	 } 
+	 
+	 public static void addItem(ArrayList<Item> itemList, Item item) { 
+	  Item a; 
+	  String actualItemName = item.getItemName(); 
+	  for (int i = 0; i < itemList.size(); i++) { 
+	   a = itemList.get(i); 
+	   String checkItemNumber = a.getItemName(); 
+	   if (checkItemNumber.equalsIgnoreCase(actualItemName)) 
+	    return; 
+	  } 
+	  String actualDes = item.getDescription(); 
+	  double actualStartBid = item.getStartBid(); 
+	  if ((actualItemName.isEmpty()) || (actualDes.isEmpty()) || (actualStartBid == 0.00)) { 
+	   return; 
+	  } 
+	  itemList.add(item); 
+	 }
+	 
 	// Input and Add bids
 	public static Bid inputBid() {
 		int bidId = Helper.readInt("Enter Bid ID > ");
@@ -458,20 +511,14 @@ public class C206_CaseStudy {
 	public static void deleteAuction(ArrayList<Auction> AuctionList) {
 	    C206_CaseStudy.viewAllAuctions(AuctionList);
 	    String title = Helper.readString("Enter Title of Auction > ");
-	    String description = Helper.readString("Enter Description of Auction > ");
-	    LocalTime startTime = LocalTime.parse(Helper.readString("Enter Start Time in the format HH:mm > "));
-	    LocalTime endTime = LocalTime.parse(Helper.readString("Enter End Time in the format HH:mm > "));
-
-	    List<String> itemsAvailable = new ArrayList<>();
-	    int itemCount = Helper.readInt("Enter the number of items available in the auction > ");
-	    for (int i = 1; i <= itemCount; i++) {
-	        String item = Helper.readString("Enter Item " + i + " > ");
-	        itemsAvailable.add(item);
+	    Auction test=null;
+	    for(Auction a:AuctionList) {
+	    	if(a.getTitle().equalsIgnoreCase(title)) {
+	    		test=new Auction(a.getTitle(),a.getDescription(),a.getStartTime(),a.getEndTime(),a.getItemsAvailable());
+	    		break;
+	    	}
 	    }
-
-	    Auction auction = new Auction(title, description, startTime, endTime, itemsAvailable);
-
-	    Boolean isDeleted = doDeleteAuction(AuctionList, auction);
+	    Boolean isDeleted = doDeleteAuction(AuctionList, test);
 	    if (isDeleted == false) {
 	        System.out.println("Invalid Auction Details!");
 	    } else {
@@ -479,9 +526,41 @@ public class C206_CaseStudy {
 	    }
 	}
 
-
-
-	// exist and delete items
+	// exist and delete items 
+	 public static boolean doDeleteItem(ArrayList<Item> itemList, Item item) { 
+	 
+	  boolean isDeleted = false; 
+	  double startBid = item.getStartBid(); 
+	  String itemName = item.getItemName(); 
+	  String description = item.getDescription(); 
+	  if (startBid == 0  || itemName.isEmpty() || description.isEmpty()) 
+	   return false; 
+	 
+	  for (int i = 0; i < itemList.size(); i++) { 
+	   String checkItemName = itemList.get(i).getItemName(); 
+	   if (checkItemName.equals(itemName)) { 
+	    itemList.remove(i); 
+	    isDeleted = true; 
+	   } 
+	  } 
+	  return isDeleted; 
+	 } 
+	 
+	 public static void deleteItem(ArrayList<Item> itemList) { 
+	  C206_CaseStudy.viewAllItems(itemList); 
+	  String itemName = Helper.readString("Enter item name > "); 
+	  String description = Helper.readString("Enter description > "); 
+	  Double startBid = Helper.readDouble("Enter start bid > "); 
+	 
+	  Item i = new Item(itemName, description, startBid); 
+	 
+	  Boolean isDeleted = doDeleteItem(itemList, i); 
+	  if (isDeleted == false) { 
+	   System.out.println("Invalid item Details!"); 
+	  } else { 
+	   System.out.println("Item Deleted"); 
+	  } 
+	 }
 
 	// exist and delete bids
 	public static boolean doDeleteBid(ArrayList<Bid> BidList, Bid b) {

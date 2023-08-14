@@ -17,11 +17,12 @@ public class C206_CaseStudyTest {
 	private Auction a1;
 	private Auction a2;
 
-
 	private Item item1;
 	private Item item2;
+	
 	private Bid b1;
 	private Bid b2;
+	
 	private User user1;
 	private User user2;
 
@@ -59,6 +60,7 @@ public class C206_CaseStudyTest {
 
 		item1 = new Item("starry night", "by van gogh", 5999.99);
 		item2 = new Item("the poppy field", "by claude monet", 4999.99);
+		
 		user1 = new User("Sung Hanbin", "SHB01", "sunghanbin20@gmail.com", "Administrator", "0613SHB");
 		user2 = new User("Mark Lee", "MKL02", "marklee127@gmail.com", "User", "0207MKLEE");
 
@@ -353,33 +355,34 @@ public class C206_CaseStudyTest {
 	}
 	
 	@Test
-	public void testDeleteAuction() {
+    public void testDeleteAuction() {
+        
+        AuctionList.add(a1);
+        AuctionList.add(a2);
 
-		// Given a list with two auction objects, after deleting 1 item, the size of the list is 1 - normal
-		// The item that was not deleted is as same as the first item of the list
-		C206_CaseStudy.addAuction(AuctionList, a1);
-		C206_CaseStudy.addAuction(AuctionList, a2);
-		C206_CaseStudy.doDeleteAuction(AuctionList, a1);
-		assertEquals("Check that Auction arraylist size is 1", 1, AuctionList.size());
-		assertSame("Check that the auction that was not delete remains", a2, AuctionList.get(0));
-		
-		// Delete an item that has missing detail
-		List<String> items2 = new ArrayList<>();
-		items2.add("Chair");
-		items2.add("Table");
-		items2.add("Plants");
-		
-		Auction a_missing = new Auction("Auction 2", "Room Furniture", null, LocalTime.of(12, 30), items2);
-		C206_CaseStudy.doDeleteAuction(AuctionList, a_missing);
-		assertEquals("Test that the Auction arraylist size is unchange.", 1, AuctionList.size());
+        // Given a list with two auction objects, after deleting 1 item, the size of the list is 1 - normal
+        C206_CaseStudy.doDeleteAuction(AuctionList, a1);
+        assertEquals("Auction arraylist size should be 1 after deletion.", 1, AuctionList.size());
+        assertSame("The auction that was not deleted should remain.", a2, AuctionList.get(0));
 
-		// Delete an item that does not exist in the list
-		List<String> items3 = new ArrayList<>();
-		items3.add("Laptop");
-		Auction a_notInList = new Auction("Auction 6", "Electronics", LocalTime.of(10, 10), LocalTime.of(04, 30), items3);
-		C206_CaseStudy.doDeleteAuction(AuctionList, a_notInList);
-		assertEquals("Test that the Auction arraylist size is unchange.", 1, AuctionList.size());
-	}
+        // Delete an item that has missing detail
+        List<String> items2 = new ArrayList<>();
+        items2.add("Chair");
+        items2.add("Table");
+        items2.add("Plants");
+
+        Auction a_missing = new Auction("Auction 2", "Room Furniture", null, LocalTime.of(12, 30), items2);
+        C206_CaseStudy.doDeleteAuction(AuctionList, a_missing);
+        assertEquals("Test that auction arraylist size should remain unchanged.", 1, AuctionList.size());
+
+        // Delete an item that does not exist in the list
+        List<String> items3 = new ArrayList<>();
+        items3.add("Laptop");
+        Auction a_notInList = new Auction("Auction 6", "Electronics", LocalTime.of(10, 10), LocalTime.of(4, 30), items3);
+        C206_CaseStudy.doDeleteAuction(AuctionList, a_notInList);
+        assertEquals("Auction arraylist size should remain unchanged.", 1, AuctionList.size());
+    
+}
 	
 
 	@After

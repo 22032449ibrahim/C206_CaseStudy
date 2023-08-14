@@ -9,8 +9,6 @@ public class Bid {
 	private LocalDateTime bidStartDateTime;
 	private int BidId;
 
- 
-
 	public Bid(int BidId, double bidamount, LocalDateTime bidStartDateTime) {
 		this.BidId = BidId;
 		this.bidamount = bidamount;
@@ -29,13 +27,11 @@ public class Bid {
 		return bidStartDateTime;
 	}
 
- 
 
 	public int getBidId() {
 		return BidId;
 	}
 
- 
 
 	public String toString() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");

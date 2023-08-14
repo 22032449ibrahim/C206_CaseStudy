@@ -123,7 +123,6 @@ public class C206_CaseStudyTest {
 				"12/11/2021 10:30", 123.45);
 		// Test that the details are displayed correctly
 		assertEquals("Test that the display is correct.", testOutput, allpayment);
-
 	}
 
 	@Test

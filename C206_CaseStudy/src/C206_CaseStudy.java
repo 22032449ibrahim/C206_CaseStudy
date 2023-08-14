@@ -227,6 +227,7 @@ public class C206_CaseStudy {
     }
 
 	// retrieve and view all items
+	
 
 	// retrieve and view all bids
 	public static String retrieveAllBids(ArrayList<Bid> BidList) {

@@ -78,14 +78,19 @@ public class C206_CaseStudy {
 				// Delete existing user
 				C206_CaseStudy.DeleteUser(UserList);
 
-			} else if (option == 4) {
+			} else if (option == OPTION_ADD_AUCTION) {
 				// Add auction
+				Auction auction = inputAuction();
+				C206_CaseStudy.addAuction(AuctionList, auction);
+				System.out.println("Auction added");
 
-			} else if (option == 5) {
+			} else if (option == OPTION_VIEW_AUCTION) {
 				// View all auction
+				C206_CaseStudy.viewAllAuctions(AuctionList);
 
-			} else if (option == 6) {
+			} else if (option == OPTION_DELETE_AUCTION) {
 				// Delete existing auction
+				C206_CaseStudy.deleteAuction(AuctionList);
 
 			} else if (option == OPTION_ADD_ITEM) {
 
@@ -220,7 +225,6 @@ public class C206_CaseStudy {
 		}
 		return output;
 
-		
 	}
 
 	public static void viewAllAuctions(ArrayList<Auction> AuctionList) {
@@ -511,15 +515,17 @@ public class C206_CaseStudy {
 			if (a.getTitle().equalsIgnoreCase(title)) {
 				test = new Auction(a.getTitle(), a.getDescription(), a.getStartTime(), a.getEndTime(),
 						a.getItemsAvailable());
+
+				Boolean isDeleted = doDeleteAuction(AuctionList, test);
+				if (isDeleted == false) {
+					System.out.println("Invalid Auction Details!");
+				} else {
+					System.out.println("Auction Deleted");
+				}
 				break;
 			}
 		}
-		Boolean isDeleted = doDeleteAuction(AuctionList, test);
-		if (isDeleted == false) {
-			System.out.println("Invalid Auction Details!");
-		} else {
-			System.out.println("Auction Deleted");
-		}
+
 	}
 
 	// exist and delete items

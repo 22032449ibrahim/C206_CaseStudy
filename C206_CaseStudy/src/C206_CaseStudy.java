@@ -21,24 +21,19 @@ public class C206_CaseStudy {
 				.add(new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20));
 		PaymentList
 				.add(new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
-<<<<<<< HEAD
 
 		ArrayList<Item> itemList = new ArrayList<Item>();
 		itemList.add(new Item("starry night", "by van gogh", 5999.99));
 		itemList.add(new Item("the poppy field", "by claude monet", 4999.99));
 
-=======
-		
 		ArrayList<Bid> BidList = new ArrayList<Bid>();
-		BidList.add(new Bid(1,2542624.66,LocalDateTime.of(2021, 12, 12, 10, 30)));
-		BidList.add(new Bid(2, 2542674.36,LocalDateTime.of(2022, 4, 5, 10, 30)));
-		
-		
+		BidList.add(new Bid(1, 2542624.66, LocalDateTime.of(2021, 12, 12, 10, 30)));
+		BidList.add(new Bid(2, 2542674.36, LocalDateTime.of(2022, 4, 5, 10, 30)));
+
 		ArrayList<User> UserList = new ArrayList<User>();
 		UserList.add(new User("Sung Hanbin", "SHB01", "0613SHB"));
 		UserList.add(new User("Mark Lee", "MKL02", "0207MKLEE"));
-		
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
+
 		// view options
 		int option = 0;
 		C206_CaseStudy.menu();
@@ -86,7 +81,7 @@ public class C206_CaseStudy {
 			} else if (option == OPTION_ADD_BID) {
 				// Add bid
 				Bid b = inputBid();
-				C206_CaseStudy.addBid(BidList,b);
+				C206_CaseStudy.addBid(BidList, b);
 				System.out.println("Bid added");
 
 			} else if (option == OPTION_VIEW_BID) {
@@ -175,19 +170,19 @@ public class C206_CaseStudy {
 	// (CRUD-Read)=================================
 
 	// retrieve and view all Users
-	public static String retrieveAllUsers(ArrayList<User> UserList ) {
+	public static String retrieveAllUsers(ArrayList<User> UserList) {
 		String output = "";
-		for(int i = 0; i < UserList.size(); i++) {
+		for (int i = 0; i < UserList.size(); i++) {
 			output += String.format("%-10s %15s\n", UserList.get(i).getName(), UserList.get(i).getUserID());
 		}
 		return output;
-		
+
 	}
-	
+
 	public static void viewAllUsers(ArrayList<User> UserList) {
 		C206_CaseStudy.setHeader("USER LIST");
-		String output = String.format("%-10s %15s\n", "NAME","USERID");
-		output += retrieveAllUsers(UserList);	
+		String output = String.format("%-10s %15s\n", "NAME", "USERID");
+		output += retrieveAllUsers(UserList);
 		System.out.println(output);
 	}
 
@@ -207,7 +202,6 @@ public class C206_CaseStudy {
 		String output = String.format("%-30s %-20s %-20s\n", "ITEM NAME", "DESCRIPTION", "START BID");
 		output += retrieveAllItems(itemList);
 		System.out.println(output);
-
 	}
 
 	// retrieve and view all bids
@@ -220,25 +214,22 @@ public class C206_CaseStudy {
 		}
 		return output;
 	}
-	
 
 	public static void viewAllBids(ArrayList<Bid> BidList) {
 		C206_CaseStudy.setHeader("BID LIST");
-		String output = String.format("%-10s%-30s%-10s\n", "BID ID", "BID START DATE TIME","BID AMOUNT");
-		 output += retrieveAllBids(BidList);	
+		String output = String.format("%-10s%-30s%-10s\n", "BID ID", "BID START DATE TIME", "BID AMOUNT");
+		output += retrieveAllBids(BidList);
 		System.out.println(output);
 	}
-	
+
 	// retrieve and view all payments
 	public static String retrieveAllPayments(ArrayList<Payment> PaymentList) {
 		String output = "";
-<<<<<<< HEAD
 		for (int i = 0; i < PaymentList.size(); i++) {
 			output += String.format("%-80s\n", PaymentList.get(i).toString());
-=======
-		for (int i = 0; i < PaymentList.size(); i++) {			
+		}
+		for (int i = 0; i < PaymentList.size(); i++) {
 			output += String.format("%-50s\n", PaymentList.get(i).toString());
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
 		}
 		return output;
 	}
@@ -256,26 +247,26 @@ public class C206_CaseStudy {
 
 	// Input and Add Users
 	public static User inputUser() {
-			String name = Helper.readString("Enter Name > ");
-			String userID = Helper.readString("Enter UserID > ");
-			String password = Helper.readString("Enter Password > ");
+		String name = Helper.readString("Enter Name > ");
+		String userID = Helper.readString("Enter UserID > ");
+		String password = Helper.readString("Enter Password > ");
 
-			User u = new User(name, userID, password);
-			return u;
+		User u = new User(name, userID, password);
+		return u;
 
+	}
+
+	public static void addUser(ArrayList<User> UserList, User u) {
+		User u1;
+		String actualUserID = u.getUserID();
+		for (int i = 0; i < UserList.size(); i++) {
+			u1 = UserList.get(i);
+			String checkUser = u1.getUserID();
+			if (checkUser.equalsIgnoreCase(actualUserID))
+				return;
 		}
+		UserList.add(u);
 
-		public static void addUser(ArrayList<User> UserList, User u) {
-			User u1;
-			String actualUserID = u.getUserID();
-			for (int i = 0; i < UserList.size(); i++) {
-				u1 = UserList.get(i);
-				String checkUser = u1.getUserID();
-				if (checkUser.equalsIgnoreCase(actualUserID))
-					return;
-			}
-			UserList.add(u);
-			
 	}
 
 	// Input and Add auction
@@ -313,24 +304,26 @@ public class C206_CaseStudy {
 		double bidamount = Helper.readDouble("Enter Bid amount > ");
 		LocalDateTime BidStartDateTime = LocalDateTime.now();
 
-		Bid b= new Bid(bidId,bidamount, BidStartDateTime);
+		Bid b = new Bid(bidId, bidamount, BidStartDateTime);
 		return b;
-		
+
 	}
+
 	public static void addBid(ArrayList<Bid> BidList, Bid b) {
 		Bid b1;
-		for(int i = 0; i < BidList.size(); i++) {
+		for (int i = 0; i < BidList.size(); i++) {
 			b1 = BidList.get(i);
-			if (b1.getBidId()==(b.getBidId()))
+			if (b1.getBidId() == (b.getBidId()))
 				return;
 		}
 		LocalDateTime actualBidStartDateTime = b.getBidStartDateTime();
-		if ((b.getBidId()==0)||(b.getBidamount()==0.00) || (actualBidStartDateTime == null)) {
+		if ((b.getBidId() == 0) || (b.getBidamount() == 0.00) || (actualBidStartDateTime == null)) {
 			return;
 		}
 		BidList.add(b);
-		
+
 	}
+
 	// Input and Add payments
 	public static Payment inputPayment() {
 		String cardNum = Helper.readString("Enter Card Number > ");
@@ -371,8 +364,8 @@ public class C206_CaseStudy {
 		String userID = u.getUserID();
 		if (userID.isEmpty())
 			return false;
-		
-		for(int i = 0; i < UserList.size(); i++) {
+
+		for (int i = 0; i < UserList.size(); i++) {
 			String checkUser = UserList.get(i).getUserID();
 			if (checkUser.equals(userID)) {
 				UserList.remove(i);
@@ -381,25 +374,24 @@ public class C206_CaseStudy {
 		}
 		return isDeleted;
 	}
-	
+
 	public static void DeleteUser(ArrayList<User> UserList) {
 		C206_CaseStudy.viewAllUsers(UserList);
 		String userID = Helper.readString("Enter userID > ");
 		User correctUser = null;
-		for(User U : UserList) {
-			if(U.getUserID() == userID) {
+		for (User U : UserList) {
+			if (U.getUserID() == userID) {
 				correctUser = U;
-				//break; // Stop looping once the correct user is found
+				// break; // Stop looping once the correct user is found
 			}
 		}
 		Boolean isDeleted = doDeleteUser(UserList, correctUser);
-		if(isDeleted == false) {
+		if (isDeleted == false) {
 			System.out.println("Invalid user ID");
-		}else {
+		} else {
 			System.out.println("User deleted");
 		}
-}
-	
+	}
 
 	// exist and delete auction
 
@@ -422,7 +414,7 @@ public class C206_CaseStudy {
 		}
 		return isDeleted;
 	}
-	
+
 	public static void deleteItem(ArrayList<Item> itemList) {
 		C206_CaseStudy.viewAllItems(itemList);
 		String itemName = Helper.readString("Enter item name > ");
@@ -440,45 +432,44 @@ public class C206_CaseStudy {
 	}
 
 	// exist and delete bids
-	public static boolean doDeleteBid(ArrayList<Bid> BidList,Bid b) {
+	public static boolean doDeleteBid(ArrayList<Bid> BidList, Bid b) {
 		boolean isDeleted = false;
 		LocalDateTime actualBidStartDateTime = b.getBidStartDateTime();
-		if ((b.getBidId()==0)||(b.getBidamount()==0.00) || (actualBidStartDateTime == null))
+		if ((b.getBidId() == 0) || (b.getBidamount() == 0.00) || (actualBidStartDateTime == null))
 			return false;
-		
+
 		for (int i = 0; i < BidList.size(); i++) {
 			Bid currentBid = BidList.get(i);
-	        boolean getBidAmount = currentBid.getBidamount() == b.getBidamount();
+			boolean getBidAmount = currentBid.getBidamount() == b.getBidamount();
 			boolean getBidStartDatetime = currentBid.getBidStartDateTime().equals(b.getBidStartDateTime());
 			if (getBidAmount && getBidStartDatetime) {
-	        	BidList.remove(i);
-	            isDeleted = true;
-	            
-				
+				BidList.remove(i);
+				isDeleted = true;
+
 			}
 		}
 		return isDeleted;
-		
+
 	}
 
 	public static void DeleteBid(ArrayList<Bid> BidList) {
 		C206_CaseStudy.viewAllBids(BidList);
 		int bidId = Helper.readInt("Enter Bid ID > ");
 		Bid correctBid = null;
-		for(Bid B:BidList) {
-			if(B.getBidId()==bidId) {
-				 correctBid=B;
+		for (Bid B : BidList) {
+			if (B.getBidId() == bidId) {
+				correctBid = B;
 			}
 		}
 		Boolean isDeleted = doDeleteBid(BidList, correctBid);
-		
+
 		if (isDeleted == false) {
 			System.out.println("Invalid bid ID");
 		} else {
 			System.out.println("Bid deleted");
 		}
 	}
-				
+
 	// exist and delete payments
 	public static boolean doDeletePayment(ArrayList<Payment> PaymentList, Payment p) {
 

@@ -1,6 +1,5 @@
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class Auction {

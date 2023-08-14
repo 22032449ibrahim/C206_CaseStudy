@@ -30,5 +30,4 @@ public class Bid {
 		String output = String.format("%-10s%-30s%-10.2f", BidId, bidStartDateTime.format(f), bidamount);
 		return output;
 	}
-
 }

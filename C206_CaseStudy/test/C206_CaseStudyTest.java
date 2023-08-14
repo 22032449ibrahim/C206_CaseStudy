@@ -11,23 +11,21 @@ public class C206_CaseStudyTest {
 
 	private Payment p1;
 	private Payment p2;
-<<<<<<< HEAD
+
 	private Item item1;
 	private Item item2;
-=======
+
 	private Bid b1;
 	private Bid b2;
 	private User u1;
 	private User u2;
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
 
 	private ArrayList<Payment> PaymentList;
-<<<<<<< HEAD
+
 	private ArrayList<Item> itemList;
-=======
+
 	private ArrayList<Bid> BidList;
 	private ArrayList<User> UserList;
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
 
 	public C206_CaseStudyTest() {
 		super();
@@ -35,7 +33,7 @@ public class C206_CaseStudyTest {
 
 	@Before
 	public void setUp() throws Exception {
-		// prepare test data
+		// prepare payment test data
 		p1 = new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20);
 		p2 = new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45);
 		item1 = new Item("starry night", "by van gogh", 5999.99);
@@ -43,6 +41,12 @@ public class C206_CaseStudyTest {
 
 		PaymentList = new ArrayList<Payment>();
 		itemList = new ArrayList<Item>();
+		
+		// prepare bid test data
+		b1 = new Bid(3, 2542624.66, LocalDateTime.of(2021, 12, 12, 10, 30));
+		b2 = new Bid(5, 2542674.36, LocalDateTime.of(2022, 4, 5, 10, 30));
+
+		BidList = new ArrayList<Bid>();
 	}
 
 	@Test
@@ -185,26 +189,6 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that the Item arraylist size is unchange.", 1, itemList.size());
 	}
 
-	@After
-	public void tearDown() throws Exception {
-
-		p1 = null;
-		p2 = null;
-		item1 = null;
-		item2 = null;
-		PaymentList = null;
-		itemList = null;
-	}
-	@Before
-	public void setUp1() throws Exception {
-
-		// prepare test data
-		b1 = new Bid(3, 2542624.66, LocalDateTime.of(2021, 12, 12, 10, 30));
-		b2 = new Bid(5, 2542674.36, LocalDateTime.of(2022, 4, 5, 10, 30));
-
-		BidList = new ArrayList<Bid>();
-	}
-
 	@Test
 	public void testAddBid() {
 		// fail("Not yet implemented");
@@ -281,6 +265,12 @@ public class C206_CaseStudyTest {
 	@After
 	public void tearDown1() throws Exception {
 
+		p1 = null;
+		p2 = null;
+		item1 = null;
+		item2 = null;
+		PaymentList = null;
+		itemList = null;
 		b1 = null;
 		b2 = null;
 		BidList = null;

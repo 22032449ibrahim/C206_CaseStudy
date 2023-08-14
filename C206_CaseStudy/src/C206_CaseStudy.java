@@ -21,13 +21,12 @@ public class C206_CaseStudy {
 				.add(new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20));
 		PaymentList
 				.add(new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
-<<<<<<< HEAD
+
 
 		ArrayList<Item> itemList = new ArrayList<Item>();
 		itemList.add(new Item("starry night", "by van gogh", 5999.99));
 		itemList.add(new Item("the poppy field", "by claude monet", 4999.99));
 
-=======
 		
 		ArrayList<Bid> BidList = new ArrayList<Bid>();
 		BidList.add(new Bid(1,2542624.66,LocalDateTime.of(2021, 12, 12, 10, 30)));
@@ -38,7 +37,7 @@ public class C206_CaseStudy {
 		UserList.add(new User("Sung Hanbin", "SHB01", "0613SHB"));
 		UserList.add(new User("Mark Lee", "MKL02", "0207MKLEE"));
 		
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
+
 		// view options
 		int option = 0;
 		C206_CaseStudy.menu();
@@ -232,14 +231,11 @@ public class C206_CaseStudy {
 	// retrieve and view all payments
 	public static String retrieveAllPayments(ArrayList<Payment> PaymentList) {
 		String output = "";
-<<<<<<< HEAD
+
 		for (int i = 0; i < PaymentList.size(); i++) {
 			output += String.format("%-80s\n", PaymentList.get(i).toString());
-=======
-		for (int i = 0; i < PaymentList.size(); i++) {			
-			output += String.format("%-50s\n", PaymentList.get(i).toString());
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
 		}
+		
 		return output;
 	}
 

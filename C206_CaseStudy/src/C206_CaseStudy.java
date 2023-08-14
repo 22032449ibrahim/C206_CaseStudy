@@ -7,6 +7,9 @@ public class C206_CaseStudy {
 	private static final int OPTION_DELETE_USER = 3;
 	private static final int OPTION_ADD_USER = 1;
 	private static final int OPTION_VIEW_USER = 2;
+	private static final int OPTION_ADD_ITEM = 7;
+	private static final int OPTION_VIEW_ITEM = 8;
+	private static final int OPTION_DELETE_ITEM = 9;
 	private static final int OPTION_ADD_PAYMENT = 13;
 	private static final int OPTION_VIEW_PAYMENT = 14;
 	private static final int OPTION_DELETE_PAYMENT = 15;
@@ -24,7 +27,7 @@ public class C206_CaseStudy {
 
 		ArrayList<Item> itemList = new ArrayList<Item>();
 		itemList.add(new Item("starry night", "by van gogh", 5999.99));
-		itemList.add(new Item("the poppy field", "by claude monet", 4999.99));
+		itemList.add(new Item("poppy field", "by claude monet", 4999.99));
 
 		ArrayList<Bid> BidList = new ArrayList<Bid>();
 		BidList.add(new Bid(1, 2542624.66, LocalDateTime.of(2021, 12, 12, 10, 30)));
@@ -64,17 +67,17 @@ public class C206_CaseStudy {
 			} else if (option == 6) {
 				// Delete existing auction
 
-			} else if (option == 7) {
+			} else if (option == OPTION_ADD_ITEM) {
 				// Add item
 				Item item = inputItem();
 				C206_CaseStudy.addItem(itemList, item);
 				System.out.println("Item added");
 
-			} else if (option == 8) {
+			} else if (option == OPTION_VIEW_ITEM) {
 				// View all items
 				C206_CaseStudy.viewAllItems(itemList);
 
-			} else if (option == 9) {
+			} else if (option == OPTION_DELETE_ITEM) {
 				// Delete existing item
 				C206_CaseStudy.deleteItem(itemList);
 
@@ -192,7 +195,7 @@ public class C206_CaseStudy {
 	public static String retrieveAllItems(ArrayList<Item> itemList) {
 		String output = "";
 		for (int i = 0; i < itemList.size(); i++) {
-			output += String.format("%-80s\n", itemList.get(i).toString());
+			output += String.format("%-70s\n", itemList.get(i).toString());
 		}
 		return output;
 	}

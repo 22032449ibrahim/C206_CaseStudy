@@ -11,23 +11,20 @@ public class C206_CaseStudyTest {
 
 	private Payment p1;
 	private Payment p2;
-<<<<<<< HEAD
+
 	private Item item1;
 	private Item item2;
-=======
+
 	private Bid b1;
 	private Bid b2;
 	private User u1;
 	private User u2;
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
 
 	private ArrayList<Payment> PaymentList;
-<<<<<<< HEAD
 	private ArrayList<Item> itemList;
-=======
+
 	private ArrayList<Bid> BidList;
 	private ArrayList<User> UserList;
->>>>>>> branch 'master' of https://github.com/22032449ibrahim/C206_CaseStudy.git
 
 	public C206_CaseStudyTest() {
 		super();
@@ -39,7 +36,7 @@ public class C206_CaseStudyTest {
 		p1 = new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20);
 		p2 = new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45);
 		item1 = new Item("starry night", "by van gogh", 5999.99);
-		item2 = new Item("the poppy field", "by claude monet", 4999.99);
+		item2 = new Item("poppy field", "by claude monet", 4999.99);
 
 		PaymentList = new ArrayList<Payment>();
 		itemList = new ArrayList<Item>();
@@ -120,7 +117,7 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.doDeletePayment(PaymentList, p_notInList);
 		assertEquals("Test that the Payment arraylist size is unchange.", 1, PaymentList.size());
 	}
-	
+
 	@Test
 	public void testAddItem() {
 		// Item list is not null, so that can add a new item - boundary
@@ -137,13 +134,13 @@ public class C206_CaseStudyTest {
 		assertEquals("Check that Item arraylist size is 2", 2, itemList.size());
 		assertSame("Check that Item is added", item2, itemList.get(1));
 	}
-	
+
 	@Test
 	public void testRetrieveAllItems() {
 		// Test if Item list is not null and empty
 		assertNotNull("Test if there is valid item arraylist to add to", itemList);
 		assertEquals("Test that the item arraylist is empty.", 0, itemList.size());
-		// Attempt to retrieve the payment
+		// Attempt to retrieve the items
 		String allItem = C206_CaseStudy.retrieveAllItems(itemList);
 		String testOutput = "";
 		// Test if the output is empty
@@ -153,15 +150,15 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addItem(itemList, item1);
 		C206_CaseStudy.addItem(itemList, item2);
 		// Test that the list is not empty
-		assertEquals("Test that payment arraylist size is 2.", 2, itemList.size());
-		// Attempt to retrieve the payment
+		assertEquals("Test that item arraylist size is 2.", 2, itemList.size());
+		// Attempt to retrieve the item
 		allItem = C206_CaseStudy.retrieveAllItems(itemList);
 		testOutput += String.format("%-30s %-20s %-20.2f\n", "starry night", "by van gogh", 5999.99);
-		testOutput += String.format("%-30s %-20s %-20.2f\n", "the poppy field", "by claude monet", 4999.99);
+		testOutput += String.format("%-30s %-20s %-20.2f\n", "poppy field", "by claude monet", 4999.99);
 		// Test that the details are displayed correctly
 		assertEquals("Test that the display is correct.", testOutput, allItem);
 	}
-	
+
 	@Test
 	public void testDeleteItem() {
 
@@ -177,7 +174,7 @@ public class C206_CaseStudyTest {
 		// Delete an item that has missing detail
 		Item item_missing = new Item("%-30s %-20s %-20.2f\n", "starry night", 5999.99);
 		C206_CaseStudy.doDeleteItem(itemList, item_missing);
-		assertEquals("Test that the Payment arraylist size is unchange.", 1, PaymentList.size());
+		assertEquals("Test that the Item arraylist size is unchange.", 1, itemList.size());
 
 		// Delete an item that does not exist in the list
 		Item item_notInList = new Item("mona lisa", "by leonardo da vinci", 6999.99);
@@ -195,6 +192,7 @@ public class C206_CaseStudyTest {
 		PaymentList = null;
 		itemList = null;
 	}
+
 	@Before
 	public void setUp1() throws Exception {
 
@@ -247,7 +245,7 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that Bid arraylist size is 2.", 2, BidList.size());
 		// Attempt to retrieve the Bid
 		allBid = C206_CaseStudy.retrieveAllBids(BidList);
-		testOutput = String.format("%-10s%-30s%-10s\n", 3,"12/12/2021 10:30", 2542624.66);
+		testOutput = String.format("%-10s%-30s%-10s\n", 3, "12/12/2021 10:30", 2542624.66);
 		testOutput += String.format("%-10s%-30s%-10s\n", 5, "05/04/2022 10:30", 2542674.36);
 		// Test that the details are displayed correctly
 		assertEquals("Test that the display is correct.", testOutput, allBid);

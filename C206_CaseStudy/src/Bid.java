@@ -3,9 +3,13 @@ import java.time.format.DateTimeFormatter;
 
 public class Bid {
 
+	 
+
 	private double bidamount;
 	private LocalDateTime bidStartDateTime;
 	private int BidId;
+
+ 
 
 	public Bid(int BidId, double bidamount, LocalDateTime bidStartDateTime) {
 		this.BidId = BidId;
@@ -13,17 +17,25 @@ public class Bid {
 		this.bidStartDateTime = bidStartDateTime;
 	}
 
+ 
+
 	public double getBidamount() {
 		return bidamount;
 	}
+
+ 
 
 	public LocalDateTime getBidStartDateTime() {
 		return bidStartDateTime;
 	}
 
+ 
+
 	public int getBidId() {
 		return BidId;
 	}
+
+ 
 
 	public String toString() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");

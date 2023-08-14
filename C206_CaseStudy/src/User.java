@@ -1,11 +1,10 @@
-
 public class User {
 	private String name;
 	private String password;
-	private String userID;
 	private String email;
 	private String role;
-	
+	private String userID;
+
 	public User(String name, String userID, String email, String role, String password) {
 		this.name = name;
 		this.userID = userID;
@@ -17,16 +16,20 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
+
 	public String getName() {
 		return name;
-	}	
+
+	}
+
 	public String getUserID() {
 		return userID;
-	
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public String getRole() {
 		return role;
 	}

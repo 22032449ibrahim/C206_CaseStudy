@@ -37,6 +37,7 @@ public class Payment {
 		return amount;
 	}
 
+	
 	public String toString() {
 		DateTimeFormatter f = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");
 		String output = String.format("%-5d %-30s %-20s %-20s %-10.2f", id, cardNumber, cardHolder, paymentDate.format(f),

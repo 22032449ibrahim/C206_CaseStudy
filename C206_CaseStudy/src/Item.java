@@ -23,6 +23,7 @@ public class Item {
 		return startBid;
 	}
 
+	
 	public void setStartBid(double startBid) {
 		this.startBid = startBid;
 	}

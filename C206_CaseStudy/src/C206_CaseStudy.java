@@ -220,6 +220,7 @@ public class C206_CaseStudy {
 		}
 		return output;
 
+		
 	}
 
 	public static void viewAllAuctions(ArrayList<Auction> AuctionList) {

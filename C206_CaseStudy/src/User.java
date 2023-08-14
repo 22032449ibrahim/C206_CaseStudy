@@ -18,17 +18,20 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
+
 	public String getName() {
 		return name;
-	}	
+	}
+
 	public String getUserID() {
 		return userID;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public String getRole() {
 		return role;
 	}
 }
-

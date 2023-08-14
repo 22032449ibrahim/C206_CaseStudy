@@ -13,6 +13,7 @@ public class Bid {
 		this.bidStartDateTime = bidStartDateTime;
 	}
 
+	
 	public double getBidamount() {
 		return bidamount;
 	}

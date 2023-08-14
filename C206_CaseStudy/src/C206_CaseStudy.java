@@ -17,22 +17,20 @@ public class C206_CaseStudy {
 	public static void main(String[] args) {
 
 		ArrayList<Payment> PaymentList = new ArrayList<Payment>();
-		PaymentList
-				.add(new Payment("1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20));
-		PaymentList
-				.add(new Payment("1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
+		PaymentList.add(
+				new Payment(1, "1234-1234-1234-1234", "Johnny Bob", LocalDateTime.of(2021, 12, 12, 10, 30), 999.20));
+		PaymentList.add(
+				new Payment(2, "1234-1234-1234-4321", "Bobby Kim", LocalDateTime.of(2021, 11, 12, 10, 30), 123.45));
 
 		ArrayList<Item> itemList = new ArrayList<Item>();
 		itemList.add(new Item("starry night", "by van gogh", 5999.99));
 		itemList.add(new Item("the poppy field", "by claude monet", 4999.99));
 
-		
 		ArrayList<Bid> BidList = new ArrayList<Bid>();
 		BidList.add(new Bid(1, 2542624.66, LocalDateTime.of(2021, 12, 12, 10, 30)));
 		BidList.add(new Bid(2, 2542674.36, LocalDateTime.of(2022, 4, 5, 10, 30)));
 
 		ArrayList<User> UserList = new ArrayList<User>();
-		
 
 		UserList.add(new User("Sung Hanbin", "SHB01", "sunghanbin20@gmail.com", "Administrator", "0613SHB"));
 		UserList.add(new User("Mark Lee", "MKL02", "marklee127@gmail.com", "User", "0207MKLEE"));
@@ -214,17 +212,17 @@ public class C206_CaseStudy {
 
 		for (int i = 0; i < PaymentList.size(); i++) {
 
-			output += String.format("%-80s\n", PaymentList.get(i).toString());
+			output += String.format("%-85s\n", PaymentList.get(i).toString());
 		}
-	
-	return output;
 
-}
+		return output;
+
+	}
 
 	public static void viewAllPayments(ArrayList<Payment> PaymentList) {
 		C206_CaseStudy.setHeader("PAYMENT LIST");
-		String output = String.format("%-30s %-20s %-20s %-10s\n", "CARD NUMBER", "CARD HOLDER", "PAYMENT DATETIME",
-				"AMOUNT");
+		String output = String.format("%-5s %-30s %-20s %-20s %-10s\n", "ID", "CARD NUMBER", "CARD HOLDER",
+				"PAYMENT DATETIME", "AMOUNT");
 		output += retrieveAllPayments(PaymentList);
 		System.out.println(output);
 	}
@@ -293,30 +291,33 @@ public class C206_CaseStudy {
 
 	// Input and Add payments
 	public static Payment inputPayment() {
+		int pid = Helper.readInt("Enter Payment id > ");
 		String cardNum = Helper.readString("Enter Card Number > ");
 		String cardHolder = Helper.readString("Enter Card Holder > ");
 		Double amt = Helper.readDouble("Enter amount > ");
 		LocalDateTime paymentDateTime = LocalDateTime.now();
 
-		Payment p = new Payment(cardNum, cardHolder, paymentDateTime, amt);
+		Payment p = new Payment(pid, cardNum, cardHolder, paymentDateTime, amt);
 		return p;
 
 	}
 
 	public static void addPayment(ArrayList<Payment> PaymentList, Payment p) {
 		Payment p1;
-		String actualCardNumber = p.getCardNumber();
+
+		int actualid = p.getId();
 		for (int i = 0; i < PaymentList.size(); i++) {
 			p1 = PaymentList.get(i);
-			String checkCardNumber = p1.getCardNumber();
-			if (checkCardNumber.equalsIgnoreCase(actualCardNumber))
+			int checkid = p1.getId();
+			if (checkid == actualid)
 				return;
 		}
+		String actualCardNumber = p.getCardNumber();
 		String actualCardHolder = p.getCardHolder();
 		LocalDateTime actualPaymentdate = p.getPaymentdate();
 		double actualAmount = p.getAmount();
-		if ((actualCardNumber.isEmpty()) || (actualCardHolder.isEmpty()) || (actualPaymentdate == null)
-				|| (actualAmount == 0.00)) {
+		if ((actualid == 0) || (actualCardNumber.isEmpty()) || (actualCardHolder.isEmpty())
+				|| (actualPaymentdate == null) || (actualAmount == 0.00)) {
 			return;
 		}
 		PaymentList.add(p);
@@ -413,16 +414,18 @@ public class C206_CaseStudy {
 	public static boolean doDeletePayment(ArrayList<Payment> PaymentList, Payment p) {
 
 		boolean isDeleted = false;
+		int id = p.getId();
 		double amount = p.getAmount();
 		String cardHolder = p.getCardHolder();
 		String cardNumber = p.getCardNumber();
 		LocalDateTime paymentdate = p.getPaymentdate();
-		if (amount == 0 || cardHolder.isEmpty() || cardNumber.isEmpty() || paymentdate == null)
+		if (id == 0 || amount == 0 || cardHolder.isEmpty() || cardNumber.isEmpty() || paymentdate == null)
 			return false;
 
 		for (int i = 0; i < PaymentList.size(); i++) {
-			String checkCardHolder = PaymentList.get(i).getCardHolder();
-			if (checkCardHolder.equals(cardHolder)) {
+			int id2 = PaymentList.get(i).getId();
+			int checkid = id2;
+			if (checkid == id) {
 				PaymentList.remove(i);
 				isDeleted = true;
 			}
@@ -433,20 +436,23 @@ public class C206_CaseStudy {
 
 	public static void deletePayment(ArrayList<Payment> PaymentList) {
 		C206_CaseStudy.viewAllPayments(PaymentList);
-		String cardNum = Helper.readString("Enter Card Number > ");
-		String cardHolder = Helper.readString("Enter Card Holder > ");
-		Double amt = Helper.readDouble("Enter amount > ");
-		String stringDateTime = Helper.readString("Enter Payment Date & Time (dd/MM/yyyy HH:mm) > ");
+		int pid = Helper.readInt("Enter Payment id > ");
+		for (Payment P : PaymentList) {
+			if (P.getId() == pid) {
+				String cardNumber = P.getCardNumber();
+				String cardHolder = P.getCardHolder();
+				LocalDateTime paymentdate = P.getPaymentdate();
+				double amount = P.getAmount();
+				Payment deletep = new Payment(pid, cardNumber, cardHolder, paymentdate, amount);
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-		LocalDateTime PaymentDateTime = LocalDateTime.parse(stringDateTime, formatter);
-		Payment p = new Payment(cardNum, cardHolder, PaymentDateTime, amt);
-
-		Boolean isDeleted = doDeletePayment(PaymentList, p);
-		if (isDeleted == false) {
-			System.out.println("Invalid Payment Details!");
-		} else {
-			System.out.println("Payment Deleted");
+				Boolean isDeleted = doDeletePayment(PaymentList, deletep);
+				if (isDeleted == false) {
+					System.out.println("Invalid Payment Details!");
+				} else {
+					System.out.println("Payment Deleted");
+				}
+				break;
+			}
 		}
 	}
 

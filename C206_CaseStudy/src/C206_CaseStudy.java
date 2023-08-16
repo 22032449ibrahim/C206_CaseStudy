@@ -206,7 +206,7 @@ public class C206_CaseStudy {
 	public static String retrieveAllUsers(ArrayList<User> UserList) {
 		String output = "";
 		for (int i = 0; i < UserList.size(); i++) {
-			output += String.format("%-10s %15s\n", UserList.get(i).getName(), UserList.get(i).getUserID());
+			output += String.format("%-30s %-20s\n", UserList.get(i).getName(), UserList.get(i).getUserID());
 		}
 		return output;
 
@@ -214,7 +214,7 @@ public class C206_CaseStudy {
 
 	public static void viewAllUsers(ArrayList<User> UserList) {
 		C206_CaseStudy.setHeader("USER LIST");
-		String output = String.format("%-10s %15s\n", "NAME", "USERID");
+		String output = String.format("%-30s %-20s\n", "NAME", "USERID");
 		output += retrieveAllUsers(UserList);
 		System.out.println(output);
 	}

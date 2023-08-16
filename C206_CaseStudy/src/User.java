@@ -33,4 +33,8 @@ public class User {
 	public String getRole() {
 		return role;
 	}
+	 public String toString() {
+	        String output = String.format("%-30s %-20s %-50s %-20s\n", "Sung Hanbin", "SHB01", "sunghanbin20@gmail.com", "Administrator", "0613SHB");
+	        return output;
+	 }
 }

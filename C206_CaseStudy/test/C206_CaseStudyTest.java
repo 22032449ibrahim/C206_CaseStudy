@@ -262,8 +262,8 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that user arrayList size is 2.", 2, UserList.size());
 		// Attempt to retrieve the Users
 		allUsers = C206_CaseStudy.retrieveAllUsers(UserList);
-		testOutput += String.format("%-30s %-20s\n", "Sung Hanbin", "SHB01");
-		testOutput += String.format("%-30s %-20s\n", "Mark Lee", "MKL02");
+		testOutput += String.format("%-30s %-20s %-50s %-20s\n", "Sung Hanbin", "SHB01", "sunghanbin20@gmail.com", "Administrator", "0613SHB");
+		testOutput += String.format("%-30s %-20s %-50s %-20s\n", "Mark Lee", "MKL02", "marklee127@gmail.com", "User", "0207MKLEE");
 		// Test that the details are displayed correctly
 		assertEquals("Test that the display is correct.", testOutput, allUsers);
 

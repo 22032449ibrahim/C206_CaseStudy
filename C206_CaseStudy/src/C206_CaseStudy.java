@@ -203,21 +203,24 @@ public class C206_CaseStudy {
 	// (CRUD-Read)=================================
 
 	// retrieve and view all Users
-	public static String retrieveAllUsers(ArrayList<User> UserList) {
-		String output = "";
-		for (int i = 0; i < UserList.size(); i++) {
-			output += String.format("%-30s %-20s\n", UserList.get(i).getName(), UserList.get(i).getUserID());
-		}
-		return output;
-
-	}
-
-	public static void viewAllUsers(ArrayList<User> UserList) {
-		C206_CaseStudy.setHeader("USER LIST");
-		String output = String.format("%-30s %-20s\n", "NAME", "USERID");
-		output += retrieveAllUsers(UserList);
-		System.out.println(output);
-	}
+	 public static String retrieveAllUsers(ArrayList<User> UserList) { 
+		  String output = ""; 
+		  for (int i = 0; i < UserList.size(); i++) { 
+		   String name = UserList.get(i).getName();
+		   String userID = UserList.get(i).getUserID();
+		output += String.format("%-30s %-20s %-50s %-20s\n", name, userID, 
+		     UserList.get(i).getEmail(), UserList.get(i).getRole()); 
+		  } 
+		  return output; 
+		 
+		 } 
+		 
+		 public static void viewAllUsers(ArrayList<User> UserList) { 
+		  C206_CaseStudy.setHeader("USER LIST"); 
+		  String output = String.format("%-30s %-20s %-50s %-10s\n", "NAME", "USERID", "EMAIL", "ROLE"); 
+		  output += retrieveAllUsers(UserList); 
+		  System.out.println(output); 
+		 }
 
 	// retrieve and view all auction
 	public static String retrieveAllAuctions(ArrayList<Auction> AuctionList) {

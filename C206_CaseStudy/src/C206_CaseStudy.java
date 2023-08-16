@@ -518,19 +518,18 @@ public class C206_CaseStudy {
 			if (a.getTitle().equalsIgnoreCase(title)) {
 				test = new Auction(a.getTitle(), a.getDescription(), a.getStartTime(), a.getEndTime(),
 						a.getItemsAvailable());
-
-				Boolean isDeleted = doDeleteAuction(AuctionList, test);
-				if (isDeleted == false) {
-					System.out.println("Invalid Auction Details!");
-				} else {
-					System.out.println("Auction Deleted");
-				}
-				break;
 			}
-		}
+	    }
 
+	    if (test != null) {
+	        boolean isDeleted = doDeleteAuction(AuctionList, test);
+	        if (isDeleted) {
+	            System.out.println("Auction Deleted");
+	        }
+	    } else {
+	        System.out.println("Invalid Auction Details!");
+	    }
 	}
-
 	// exist and delete items
 	public static boolean doDeleteItem(ArrayList<Item> itemList, Item item) {
 

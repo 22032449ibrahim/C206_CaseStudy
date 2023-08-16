@@ -296,8 +296,6 @@ public class C206_CaseStudyTest {
 	}
 	
 
-
-
 	@Test
 	public void testAddAuction() {
 		// fail("Not yet implemented");
@@ -393,7 +391,7 @@ public class C206_CaseStudyTest {
         C206_CaseStudy.doDeleteAuction(AuctionList, a_notInList);
         assertEquals("Auction arraylist size should remain unchanged.", 1, AuctionList.size());
     
-}
+	}
 	
 	@After
 	public void tearDown() throws Exception {

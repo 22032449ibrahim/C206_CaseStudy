@@ -208,8 +208,10 @@ public class C206_CaseStudy {
 		  for (int i = 0; i < UserList.size(); i++) { 
 		   String name = UserList.get(i).getName();
 		   String userID = UserList.get(i).getUserID();
-		output += String.format("%-30s %-20s %-50s %-20s\n", name, userID, 
-		     UserList.get(i).getEmail(), UserList.get(i).getRole()); 
+		   String email = UserList.get(i).getEmail();
+		   String role = UserList.get(i).getRole();
+		   output += String.format("%-30s %-20s %-50s %-20s\n", name, userID, 
+		     email, role); 
 		  } 
 		  return output; 
 		 
